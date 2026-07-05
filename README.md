@@ -1,3 +1,4 @@
 # Personal Computing Ecosystem
 
-Hello, world!
+Living documentation and codebase for my journey to achieve my ideal personal computing
+ecosystem.
