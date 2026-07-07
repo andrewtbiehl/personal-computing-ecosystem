@@ -93,5 +93,5 @@ hardware and software being used for development are listed below.
            password as both the root and new user password. This practice should be
            avoided in any production setting.*
          - *You will need to type the password in twice to verify correctness.*
-     4. Choose the 'Guided - use entire disk' partitioning method.
-     5. Select the internal 'Apple SSD' as the disk to partition.
+      4. Choose the 'Guided - use entire disk' partitioning method.
+      5. Select the internal 'Apple SSD' as the disk to partition.
