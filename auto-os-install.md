@@ -73,9 +73,8 @@ hardware and software being used for development are listed below.
    5. When the GRUB menu appears, press `e` to open the GRUB editor.
    6. Edit the GRUB script that appears so as to have precisely the following content.
       ```
-      set background_color=black
-      linux /install.amd/vmlinuz auto=true url=http://<provisioning.ip>:<port>/example-preseed.txt vga=788 --- quiet intel_iommu=off
-      initrd /install.amd/gtk/initrd.gz
+      linux /install.amd/vmlinuz auto=true url=http://<provisioning.ip>:<port>/example-preseed.txt --- intel_iommu=off
+      initrd /install.amd/initrd.gz
       ```
       - *This directs the installer to download and use an unmodified copy of the
         official Debian example preseed file.*
