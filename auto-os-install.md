@@ -57,9 +57,8 @@ hardware and software being used for development are listed below.
    setparams 'Graphical install'
 
        set background_color=black
-       linux    /install.amd/vmlinuz vga=788 --- quiet
+       linux    /install.amd/vmlinuz vga=788 --- quiet intel_iommu=off
        initrd   /install.amd/gtk/initrd.gz
    ```
-   - *Notice that this is in fact the default script; nothing needs to be changed.*
 7. Press `F10` to execute the modified entry and begin the installation.
 8. Complete the OS installation manually, as prompted by the installer.
