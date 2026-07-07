@@ -57,8 +57,11 @@ hardware and software being used for development are listed below.
    setparams 'Graphical install'
 
        set background_color=black
-       linux    /install.amd/vmlinuz vga=788 --- quiet intel_iommu=off
+       linux    /install.amd/vmlinuz auto=true url=https://www.debian.org/releases/trixie/example-preseed.txt vga=788 --- quiet intel_iommu=off
        initrd   /install.amd/gtk/initrd.gz
    ```
+   - *This directs the installer to download and use the official Debian example preseed
+     file.*
+   - *This particular preseed file used does **not** fully automate the installation.*
 7. Press `F10` to execute the modified entry and begin the installation.
 8. Complete the OS installation manually, as prompted by the installer.
