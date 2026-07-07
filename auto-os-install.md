@@ -81,7 +81,6 @@ hardware and software being used for development are listed below.
       ```
       - *This directs the installer to download and use an unmodified copy of the
         official Debian example preseed file.*
-      - *This particular preseed file used does **not** fully automate the
-        installation.*
+      - *This particular preseed file does **not** fully automate the installation.*
    7. Press `F10` to execute the modified entry and begin the installation.
    8. Complete the OS installation manually, as prompted by the installer.
