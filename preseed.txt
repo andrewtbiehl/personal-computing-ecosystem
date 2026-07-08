@@ -1,1 +1,10 @@
 #_preseed_V1
+
+# Set the installation and system language to English.
+d-i debian-installer/language string en
+
+# Set the location to United States.
+d-i debian-installer/country string US
+
+# Set the keyboard layout to US English.
+d-i keyboard-configuration/xkb-keymap select us
