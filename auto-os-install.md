@@ -57,7 +57,7 @@ hardware and software being used for development are listed below.
    - *This can be achieved by, for example, running the command
      `python -m http.server <port>`. This starts an HTTP server that makes the preseed
      file accessible on the local network at the URL
-     `http://<provisioning.ip>:<port>/example-preseed.txt`.*
+     `http://<provisioning.ip>:<port>/preseed.txt`.*
    - *You may need to disable the secondary computer's firewall temporarily.*
    - *Once the HTTP server is running, consider testing the preseed file URL from any
      other computer on the local network.*
@@ -75,7 +75,7 @@ hardware and software being used for development are listed below.
    5. When the GRUB menu appears, press `e` to open the GRUB editor.
    6. Edit the GRUB script that appears so as to have precisely the following content.
       ```
-      linux /install.amd/vmlinuz auto=true priority=critical url=http://<provisioning.ip>:<port>/example-preseed.txt --- intel_iommu=off
+      linux /install.amd/vmlinuz auto=true priority=critical url=http://<provisioning.ip>:<port>/preseed.txt --- intel_iommu=off
       initrd /install.amd/initrd.gz
       ```
       - *This directs the installer to download and use an empty Debian preseed file.*
