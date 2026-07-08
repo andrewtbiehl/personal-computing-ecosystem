@@ -78,20 +78,25 @@ hardware and software being used for development are listed below.
       linux /install.amd/vmlinuz auto=true priority=critical url=http://<provisioning.ip>:<port>/example-preseed.txt --- intel_iommu=off
       initrd /install.amd/initrd.gz
       ```
-      - *This directs the installer to download and use an unmodified copy of the
-        official Debian example preseed file.*
+      - *This directs the installer to download and use an empty Debian preseed file.*
       - *This particular preseed file does **not** fully automate the installation.*
    7. Press `F10` to execute the modified entry and begin the installation.
    8. Complete the OS installation, as prompted by the installer, with the following
       inputs.
-      1. Set the root password to `<targetpwd>`.
+      1. Set the language to `English`.
+      2. Set the country to `United States`.
+      3. Set the keymap to `American English`.
+      4. Set the root password to `<targetpwd>`.
          - *You will need to type the password in twice to verify correctness.*
-      2. Create a new user account with a 'full name' of `Andrew` and a 'username' of
+      5. Create a new user account with a 'full name' of `Andrew` and a 'username' of
          `andrew`.
-      3. Set the aforementioned new user's password to `<targetpwd>`.
+      6. Set the aforementioned new user's password to `<targetpwd>`.
          - ***SECURITY WARNING**: It is obviously not a good practice to use the same
            password as both the root and new user password. This practice should be
            avoided in any production setting.*
          - *You will need to type the password in twice to verify correctness.*
-      4. Choose the 'Guided - use entire disk' partitioning method.
-      5. Select the internal 'Apple SSD' as the disk to partition.
+      7. Choose the 'Guided - use entire disk' partitioning method.
+      8. Select the internal 'Apple SSD' as the disk to partition.
+      9. Select 'Finish partitioning and write changes to disk'.
+      10. Answer 'Yes' to the question 'Write changes to disks?'.
+      11. Select 'Continue' once the installation has completed.
