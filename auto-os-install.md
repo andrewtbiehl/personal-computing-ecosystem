@@ -47,8 +47,6 @@ hardware and software being used for development are listed below.
    serve a local HTTP server. We hereafter refer to this address and port via the
    indeterminates `<provisioning.ip>` and `<port>`, respectively.
    - *Use, for example, port 8080.*
-6. Choose a password to use on the target computer. We hereafter refer to this password
-   via the indeterminate `<targetpwd>`.
 
 ### Installation steps
 
@@ -83,11 +81,13 @@ hardware and software being used for development are listed below.
    7. Press `F10` to execute the modified entry and begin the installation.
    8. Complete the OS installation, as prompted by the installer, with the following
       inputs.
-      1. Set the root password to `<targetpwd>`.
+      1. Set the root password to `password`.
+         - ***SECURITY WARNING**: This is a very weak password and should not be used in
+           a production setting.*
          - *You will need to type the password in twice to verify correctness.*
       2. Create a new user account with a 'full name' of `Andrew` and a 'username' of
          `andrew`.
-      3. Set the aforementioned new user's password to `<targetpwd>`.
+      3. Set the aforementioned new user's password to `password`.
          - ***SECURITY WARNING**: It is obviously not a good practice to use the same
            password as both the root and new user password. This practice should be
            avoided in any production setting.*
