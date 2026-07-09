@@ -18,3 +18,14 @@ d-i passwd/user-fullname string Andrew
 d-i passwd/username string andrew
 d-i passwd/user-password password password
 d-i passwd/user-password-again password password
+
+# Select the internal disk for OS installation.
+# Note: This script is probably not robust to all installation contexts; use with care.
+# Implements the strategy of selecting the first disk that is not the first USB drive.
+d-i partman/early_command string \
+    USB_DRIVE_NAME=$(list-devices usb-partition | sed 's/[0-9]//g' | head -n 1); \
+    INTERNAL_DISK_NAME=$(list-devices disk | grep -v "$USB_DRIVE_NAME" | head -n 1); \
+    debconf-set partman-auto/disk "$INTERNAL_DISK_NAME"
+
+# Use the regular disk partitioning method.
+d-i partman-auto/method string regular
