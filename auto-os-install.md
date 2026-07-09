@@ -76,24 +76,21 @@ hardware and software being used for development are listed below.
       linux /install.amd/vmlinuz auto=true priority=critical url=http://<provisioning.ip>:<port>/preseed.txt --- intel_iommu=off
       initrd /install.amd/initrd.gz
       ```
-      - *This directs the installer to download and use a basic Debian preseed file.*
+      - *This directs the installer to download and use a simple Debian preseed file.*
       - *This particular preseed file does **not** fully automate the installation.*
    7. Press `F10` to execute the modified entry and begin the installation.
    8. Complete the OS installation, as prompted by the installer, with the following
       inputs.
-      1. Set the root password to `password`.
-         - ***SECURITY WARNING**: This is a very weak password and should not be used in
-           a production setting.*
-         - *You will need to type the password in twice to verify correctness.*
-      2. Create a new user account with a 'full name' of `Andrew` and a 'username' of
-         `andrew`.
-      3. Set the aforementioned new user's password to `password`.
-         - ***SECURITY WARNING**: It is obviously not a good practice to use the same
-           password as both the root and new user password. This practice should be
-           avoided in any production setting.*
-         - *You will need to type the password in twice to verify correctness.*
-      4. Choose the 'Guided - use entire disk' partitioning method.
-      5. Select the internal 'Apple SSD' as the disk to partition.
-      6. Select 'Finish partitioning and write changes to disk'.
-      7. Answer 'Yes' to the question 'Write changes to disks?'.
-      8. Select 'Continue' once the installation has completed.
+      1. Choose the 'Guided - use entire disk' partitioning method.
+      2. Select the internal 'Apple SSD' as the disk to partition.
+      3. Select 'Finish partitioning and write changes to disk'.
+      4. Answer 'Yes' to the question 'Write changes to disks?'.
+      5. Select 'Continue' once the installation has completed.
+
+
+## Notes
+
+- ***SECURITY WARNING**: Both the root and new user passwords have been hard coded as
+  'password'. This is a weak password choice. Moreover, it is obviously not a good
+  practice to use the same password as both the root and new user password. Both
+  practices should be avoided in any production setting.*

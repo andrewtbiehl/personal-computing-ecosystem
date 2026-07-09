@@ -8,3 +8,13 @@ d-i debian-installer/country string US
 
 # Set the keyboard layout to US English.
 d-i keyboard-configuration/xkb-keymap select us
+
+# Set the root password to 'password'.
+d-i passwd/root-password password password
+d-i passwd/root-password-again password password
+
+# Create the initial user account 'andrew' and set the password to 'password'.
+d-i passwd/user-fullname string Andrew
+d-i passwd/username string andrew
+d-i passwd/user-password password password
+d-i passwd/user-password-again password password
