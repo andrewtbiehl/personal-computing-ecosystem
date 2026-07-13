@@ -83,7 +83,8 @@ hardware and software being used for development are listed below.
       inputs.
       1. Select 'Finish partitioning and write changes to disk'.
       2. Answer 'Yes' to the question 'Write changes to disks?'.
-      3. Select 'Continue' once the installation has completed.
+      3. Select 'Continue' once the installation has completed and the computer will
+         restart.
 
 ## Notes
 
