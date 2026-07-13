@@ -29,3 +29,7 @@ d-i partman/early_command string \
 
 # Use the regular disk partitioning method.
 d-i partman-auto/method string regular
+
+# Bypass all precautionary partitioning confirmation prompts.
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true

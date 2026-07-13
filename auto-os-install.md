@@ -81,9 +81,7 @@ hardware and software being used for development are listed below.
    7. Press `F10` to execute the modified entry and begin the installation.
    8. Complete the OS installation, as prompted by the installer, with the following
       inputs.
-      1. Select 'Finish partitioning and write changes to disk'.
-      2. Answer 'Yes' to the question 'Write changes to disks?'.
-      3. Select 'Continue' once the installation has completed and the computer will
+      1. Select 'Continue' once the installation has completed and the computer will
          restart.
 
 ## Notes
