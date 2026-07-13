@@ -36,3 +36,6 @@ d-i partman/confirm boolean true
 
 # Bypass final successful installation acknowledgment prompt.
 d-i finish-install/reboot_in_progress note
+
+# Power off (and do not restart) the computer once installation has completed.
+d-i debian-installer/exit/poweroff boolean true
