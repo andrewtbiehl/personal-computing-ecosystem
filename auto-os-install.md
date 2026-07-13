@@ -85,7 +85,6 @@ hardware and software being used for development are listed below.
       2. Answer 'Yes' to the question 'Write changes to disks?'.
       3. Select 'Continue' once the installation has completed.
 
-
 ## Notes
 
 - ***SECURITY WARNING**: Both the root and new user passwords have been hard coded as
