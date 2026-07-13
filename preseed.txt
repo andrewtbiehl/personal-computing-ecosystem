@@ -33,3 +33,6 @@ d-i partman-auto/method string regular
 # Bypass all precautionary partitioning confirmation prompts.
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
+
+# Bypass final successful installation acknowledgment prompt.
+d-i finish-install/reboot_in_progress note

@@ -77,12 +77,8 @@ hardware and software being used for development are listed below.
       initrd /install.amd/initrd.gz
       ```
       - *This directs the installer to download and use a simple Debian preseed file.*
-      - *This particular preseed file does **not** fully automate the installation.*
    7. Press `F10` to execute the modified entry and begin the installation.
-   8. Complete the OS installation, as prompted by the installer, with the following
-      inputs.
-      1. Select 'Continue' once the installation has completed and the computer will
-         restart.
+      - Once the installation has completed, the computer will restart.
 
 ## Notes
 
