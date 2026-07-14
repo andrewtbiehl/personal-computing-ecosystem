@@ -26,9 +26,9 @@ hardware and software being used for development are listed below.
   - The official Debian 13 64-bit PC disk image can be downloaded from the following
     URL.
     ```
-    https://cdimage.debian.org/cdimage/archive/13.4.0/amd64/iso-dvd/debian-13.4.0-amd64-DVD-1.iso
+    https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
     ```
-  - *Debian version 13.4.0 is pinned for reproducibility purposes.*
+  - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 
 ## Procedure
 
