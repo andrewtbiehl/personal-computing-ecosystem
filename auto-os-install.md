@@ -12,7 +12,7 @@ hardware and software being used for development are listed below.
 ### Hardware
 
 - "Target" computer: (Intel-based) MacBook Air Mid-2013
-- "Provisioning" computer: (Intel-based) MacBook Pro 2019 running macOS 15 (Sequoia)
+- "Provisioning" computer: (Intel-based) MacBook Air Early-2015
 - (Optional) Additional computer for testing local network access to provisioning
   computer
 - Ethernet cable
@@ -34,6 +34,11 @@ hardware and software being used for development are listed below.
 
 ### Preliminary steps
 
+1. If required or inclined to do so, perform the following steps to set up the
+   provisioning computer.
+   1. Reset the provisioning computer to factory settings and install MacOS 12
+      (Monterey).
+   2. Install Xcode Command Line Tools (via the command `xcode-select --install`).
 1. Use the aforementioned URL to download the target OS disk image to the provisioning
    computer.
 2. Connect the thumb drive to the provisioning computer.
@@ -53,14 +58,12 @@ hardware and software being used for development are listed below.
 1. Start up a local HTTP server on port `<port>` of the provisioning computer, serving
    the contents of this repository.
    - *This can be achieved by, for example, running the command
-     `python -m http.server <port>`. This starts an HTTP server that makes the preseed
+     `python3 -m http.server <port>`. This starts an HTTP server that makes the preseed
      file accessible on the local network at the URL
      `http://<provisioning.ip>:<port>/preseed.txt`.*
-   - *You may need to disable the secondary computer's firewall temporarily.*
    - *Once the HTTP server is running, consider testing the preseed file URL from any
      other computer on the local network.*
-   - *Remember to shut down the HTTP server and possibly reenable the firewall after
-     completing these steps.*
+   - *Remember to shut down the HTTP server after completing these steps.*
 2. Perform the following steps on the target computer.
    1. Connect the computer to the router via the Ethernet cable and adapter.
    2. Insert the bootable thumb drive into the computer.
