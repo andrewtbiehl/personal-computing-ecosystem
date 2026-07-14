@@ -78,7 +78,7 @@ hardware and software being used for development are listed below.
       ```
       - *This directs the installer to download and use a simple Debian preseed file.*
    7. Press `F10` to execute the modified entry and begin the installation.
-      - Once the installation has completed, the computer will restart.
+      - *Once the installation has completed, the computer will restart.*
 
 ## Notes
 
