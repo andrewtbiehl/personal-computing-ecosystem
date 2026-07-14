@@ -11,8 +11,8 @@ hardware and software being used for development are listed below.
 
 ### Hardware
 
-- "Target" computer: (Intel-based) MacBook Air Mid-2013
-- "Provisioning" computer: (Intel-based) MacBook Air Early-2015
+- "Target" computer: (Intel-based) MacBook Air (11-inch, Mid 2013)
+- "Provisioning" computer: (Intel-based) MacBook Air (11-inch, Early 2015)
 - (Optional) Additional computer for testing local network access to provisioning
   computer
 - Ethernet cable
