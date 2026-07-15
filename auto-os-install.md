@@ -64,7 +64,7 @@ hardware and software being used for development are listed below.
    - *Once the HTTP server is running, consider testing the preseed file URL from any
      other computer on the local network.*
    - *Remember to shut down the HTTP server after completing these steps.*
-2. Perform the following steps on the target computer.
+2. Perform the following steps on the (initially powered off) target computer.
    1. Connect the computer to the router via the Ethernet cable and adapter.
    2. Insert the bootable thumb drive into the computer.
    3. Press the power button while holding down the `option`/`alt` key to start up the
