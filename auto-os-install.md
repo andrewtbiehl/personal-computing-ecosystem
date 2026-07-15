@@ -109,7 +109,6 @@ hardware and software being used for development are listed below.
       linux /install.amd/vmlinuz auto=true priority=critical url=http://192.168.1.1:8080/preseed.txt --- intel_iommu=off
       initrd /install.amd/initrd.gz
       ```
-      - *This directs the installer to download and use a simple Debian preseed file.*
    7. Press `F10` to execute the modified entry and begin the installation.
       - *Once the installation has completed, the computer will power off.*
 
