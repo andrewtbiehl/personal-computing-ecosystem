@@ -22,12 +22,11 @@ hardware and software being used for development are listed below.
 
 ### Software
 
-- "Target" OS: Debian 13 (Trixie)
-  - The official Debian 13 64-bit PC disk image can be downloaded from the following
-    URL.
-    ```
-    https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
-    ```
+- "Target" OS: Debian 13 (Trixie). The official Debian 13 64-bit PC disk image can be
+  downloaded from the following URL.
+  ```
+  https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
+  ```
   - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 
 ## Procedure
