@@ -13,12 +13,10 @@ hardware and software being used for development are listed below.
 
 - "Target" computer: (Intel-based) MacBook Air (11-inch, Mid 2013)
 - "Provisioning" computer: (Intel-based) MacBook Air (11-inch, Early 2015)
-- (Optional) Additional computer for testing local network access to provisioning
-  computer
 - Ethernet cable
-- USB-A to Ethernet adapter
+- "Target" USB-A to Ethernet adapter, compatible with the target computer
+- "Provisioning" USB-A to Ethernet adapter, compatible with the provisioning computer
 - USB-A thumb drive (32 GB)
-- Wireless router with internet access and an Ethernet port
 
 ### Software
 
@@ -47,24 +45,57 @@ hardware and software being used for development are listed below.
      that says "The disk you attached was not readable by this computer.". This is not
      an issue for tools like Balena Etcher; select "Ignore".*
 3. Clone this repository to the provisioning computer.
-4. Determine the local IP address of the provisioning computer and a port on which to
-   serve a local HTTP server. We hereafter refer to this address and port via the
-   indeterminates `<provisioning.ip>` and `<port>`, respectively.
-   - *Use, for example, port 8080.*
+4. Install [Dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) to the desktop
+   directory of the provisioning computer via the following command.
+   ```sh
+   git -C ~/Desktop clone http://thekelleys.org.uk/git/dnsmasq.git \
+     && git -C ~/Desktop/dnsmasq checkout v2.91 \
+     && make -C ~/Desktop/dnsmasq
+   ```
+   - *Dnsmasq version 2.91 is pinned for reproducibility purposes.*
 
 ### Installation steps
 
-1. Start up a local HTTP server on port `<port>` of the provisioning computer, serving
-   the contents of this repository.
-   - *This can be achieved by, for example, running the command
-     `python3 -m http.server <port>`. This starts an HTTP server that makes the preseed
-     file accessible on the local network at the URL
-     `http://<provisioning.ip>:<port>/preseed.txt`.*
-   - *Once the HTTP server is running, consider testing the preseed file URL from any
-     other computer on the local network.*
-   - *Remember to shut down the HTTP server after completing these steps.*
+1. Perform the following steps on the provisioning computer.
+   1. Ensure the computer is disconnected from the internet.
+   2. Connect the provisioning adapter to the computer.
+   3. Open a new shell session to start up a DHCP server bound to the provisioning
+      adapter interface.
+      1. Run the following command to determine the name assigned to the provisioning
+         adapter interface.
+         ```sh
+         networksetup -listallhardwareports
+         ```
+         We hereafter refer to this name via the indeterminate `<interface-name>`.
+      2. Run the following command to assign the static IP address `192.168.1.1` to the
+         provisioning adapter interface.
+         ```sh
+         sudo ifconfig <interface-name> 192.168.1.1 netmask 255.255.255.0 up
+         ```
+      3. Start up the DHCP server via the following command.
+         ```sh
+         sudo ~/Desktop/dnsmasq/src/dnsmasq \
+           --interface=<interface-name> \
+           --dhcp-range=192.168.1.2,192.168.1.2 \
+           --dhcp-leasefile=/tmp/dnsmasq.leases \
+           --no-daemon
+         ```
+      - *After completing these steps, remember to shut down the DHCP server and then
+        reset the adapter interface configuration via the following command.*
+        ```sh
+        sudo rm /tmp/dnsmasq.leases \
+          && sudo ifconfig <interface-name> delete 192.168.1.1
+        ```
+   4. Open a new shell session to start up a local HTTP server on port `8080` of the
+      computer, serving the contents of this repository.
+      - *This can be achieved by, for example, running the command
+        `python3 -m http.server 8080`. This starts an HTTP server that makes the preseed
+        file accessible on the local network at the URL
+        `http://192.168.1.1:8080/preseed.txt`.*
+      - *Remember to shut down the HTTP server after completing these steps.*
 2. Perform the following steps on the (initially powered off) target computer.
-   1. Connect the computer to the router via the Ethernet cable and adapter.
+   1. Connect the target computer to the provisioning computer via the Ethernet cable
+      and adapters.
    2. Insert the bootable thumb drive into the computer.
    3. Press the power button while holding down the `option`/`alt` key to start up the
       computer and enter the boot manager.
@@ -75,7 +106,7 @@ hardware and software being used for development are listed below.
    5. When the GRUB menu appears, press `e` to open the GRUB editor.
    6. Edit the GRUB script that appears so as to have precisely the following content.
       ```
-      linux /install.amd/vmlinuz auto=true priority=critical url=http://<provisioning.ip>:<port>/preseed.txt --- intel_iommu=off
+      linux /install.amd/vmlinuz auto=true priority=critical url=http://192.168.1.1:8080/preseed.txt --- intel_iommu=off
       initrd /install.amd/initrd.gz
       ```
       - *This directs the installer to download and use a simple Debian preseed file.*
