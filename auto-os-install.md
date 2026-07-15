@@ -41,14 +41,14 @@ hardware and software being used for development are listed below.
    2. Install Xcode Command Line Tools (via the command `xcode-select --install`).
 1. Use the aforementioned URL to download the target OS disk image to the provisioning
    computer.
-2. Connect the thumb drive to the provisioning computer.
+2. Connect the thumb drive to the provisioning computer and write the OS disk image onto
+   the thumb drive.
+   - *Use, for example, a tool like [Balena Etcher](https://etcher.balena.io/).*
    - *If a disk image has already been written to the thumb drive, a dialog may appear
      that says "The disk you attached was not readable by this computer.". This is not
-     an issue for tools like Balena Etcher (see the next step); select "Ignore".*
-3. Write the OS disk image onto the thumb drive.
-   - *Use, for example, a tool like [Balena Etcher](https://etcher.balena.io/).*
-4. Clone this repository to the provisioning computer.
-5. Determine the local IP address of the provisioning computer and a port on which to
+     an issue for tools like Balena Etcher; select "Ignore".*
+3. Clone this repository to the provisioning computer.
+4. Determine the local IP address of the provisioning computer and a port on which to
    serve a local HTTP server. We hereafter refer to this address and port via the
    indeterminates `<provisioning.ip>` and `<port>`, respectively.
    - *Use, for example, port 8080.*
