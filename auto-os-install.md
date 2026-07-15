@@ -76,6 +76,7 @@ hardware and software being used for development are listed below.
          ```sh
          sudo ~/Desktop/dnsmasq/src/dnsmasq \
            --interface=<interface-name> \
+           --dhcp-boot=http://192.168.1.1:8080/preseed.txt \
            --dhcp-range=192.168.1.2,192.168.1.2 \
            --dhcp-leasefile=/tmp/dnsmasq.leases \
            --no-daemon
@@ -106,7 +107,7 @@ hardware and software being used for development are listed below.
    5. When the GRUB menu appears, press `e` to open the GRUB editor.
    6. Edit the GRUB script that appears so as to have precisely the following content.
       ```
-      linux /install.amd/vmlinuz auto=true priority=critical url=http://192.168.1.1:8080/preseed.txt --- intel_iommu=off
+      linux /install.amd/vmlinuz auto=true priority=critical --- intel_iommu=off
       initrd /install.amd/initrd.gz
       ```
    7. Press `F10` to execute the modified entry and begin the installation.
