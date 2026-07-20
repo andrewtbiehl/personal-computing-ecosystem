@@ -34,6 +34,9 @@ d-i partman-auto/method string regular
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 
+# Install Git
+d-i pkgsel/include string git
+
 # Bypass final successful installation acknowledgment prompt.
 d-i finish-install/reboot_in_progress note
 
