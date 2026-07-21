@@ -135,7 +135,7 @@ steps on the target computer.
    "
    ```
    - *This particular step does not require an internet connection.*
-5. Set up wireless connectivity.
+5. Set up wireless networking capability.
    1. Install all necessary packages via the following command.
       ```sh
       su --login root --command="
