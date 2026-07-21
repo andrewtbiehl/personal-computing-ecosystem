@@ -14,10 +14,10 @@ hardware and software being used for development are listed below.
 - One "target" computer and one "provisioning" computer
   - (Intel-based) MacBook Air (11-inch, Early 2015)
   - (Intel-based) MacBook Air (11-inch, Mid 2013)
-- Ethernet cable
 - Two (2) USB-A to Ethernet adapters
   - *It is possible that some adapter-to-computer/OS pairings are incompatible; some
     "mixing and matching" may prove necessary.*
+- Ethernet cable
 - USB-A thumb drive (32 GB)
 - Wireless router with internet access and an Ethernet port
 
@@ -28,6 +28,7 @@ hardware and software being used for development are listed below.
   ```
   https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
   ```
+  We hereafter refer to this URL via the indeterminate `<os-disk-image-url>`.
   - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 
 ## Procedure
@@ -38,10 +39,13 @@ hardware and software being used for development are listed below.
    provisioning computer.
    1. Reset the provisioning computer to factory settings and install the latest version
       of MacOS that it supports.
-   2. Install Xcode Command Line Tools (via the command `xcode-select --install`).
+   2. Install Xcode Command Line Tools via the following command.
+      ```sh
+      xcode-select --install
+      ```
 2. Clone this repository to the provisioning computer.
-3. Use the aforementioned URL to download the target OS disk image to the provisioning
-   computer.
+3. Download the target OS disk image, located at the url `<os-disk-image-url>`, to the
+   provisioning computer.
 4. Connect the thumb drive to the provisioning computer and write the OS disk image onto
    the thumb drive.
    - *Use, for example, a tool like [Balena Etcher](https://etcher.balena.io/).*
@@ -91,12 +95,11 @@ hardware and software being used for development are listed below.
         sudo rm /tmp/dnsmasq.leases \
           && sudo ifconfig <interface-name> delete 192.168.1.1
         ```
-   4. Open a new shell session to start up a local HTTP server on port `8080` of the
-      computer, serving the contents of this repository.
-      - *This can be achieved by, for example, running the command
-        `python3 -m http.server 8080`. This starts an HTTP server that makes the preseed
-        file accessible on the local network at the URL
-        `http://192.168.1.1:8080/preseed.txt`.*
+   4. Open a new shell session and start up an HTTP server that serves the contents of
+      this repository via the following command.
+      ```sh
+      python3 -m http.server 8080
+      ```
       - *Remember to shut down the HTTP server after completing these steps.*
 2. Perform the following steps on the (initially powered off) target computer.
    1. Connect the target computer to the provisioning computer via the Ethernet cable
@@ -144,7 +147,7 @@ steps on the target computer.
 6. Detach the Ethernet cable and adapter from the computer.
 7. Download the target OS disk image to the computer via the following command.
    ```sh
-   wget https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
+   wget <os-disk-image-url>
    ```
 8. Connect the thumb drive to the computer and write the OS disk image onto the thumb
    drive.
