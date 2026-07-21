@@ -101,10 +101,10 @@ hardware and software being used for development are listed below.
    2. Insert the bootable thumb drive into the computer.
    3. Press the power button while holding down the `option`/`alt` key to start up the
       computer and enter the boot manager.
-   4. Select either of the external drive options labeled "EFI Boot" (represented by
-      yellow drive icons).
-      - *Both options are functionally identical; choose the left-most option for
-        consistency.*
+   4. Select any of the external drive options labeled "EFI Boot" (represented by yellow
+      drive icons).
+      - *All options are functionally identical; if there is more than one, choose the
+        left-most option for consistency.*
    5. When the GRUB menu appears, press `e` to open the GRUB editor.
    6. Edit the GRUB script that appears so as to have precisely the following content.
       ```
