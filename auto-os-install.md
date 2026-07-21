@@ -14,8 +14,9 @@ hardware and software being used for development are listed below.
 - "Target" computer: (Intel-based) MacBook Air (11-inch, Mid 2013)
 - "Provisioning" computer: (Intel-based) MacBook Air (11-inch, Early 2015)
 - Ethernet cable
-- "Target" USB-A to Ethernet adapter, compatible with the target computer
-- "Provisioning" USB-A to Ethernet adapter, compatible with the provisioning computer
+- Two (2) USB-A to Ethernet adapters
+  - *It is possible that some adapter-to-computer/OS pairings are incompatible; some
+    "mixing and matching" may prove necessary.*
 - USB-A thumb drive (32 GB)
 - Wireless router with internet access and an Ethernet port
 
@@ -59,17 +60,17 @@ hardware and software being used for development are listed below.
 
 1. Perform the following steps on the provisioning computer.
    1. Ensure the computer is disconnected from the internet.
-   2. Connect the provisioning adapter to the computer.
-   3. Open a new shell session to start up a DHCP server bound to the provisioning
-      adapter interface.
-      1. Run the following command to determine the name assigned to the provisioning
-         adapter interface.
+   2. Connect one compatible Ethernet adapter to the computer.
+   3. Open a new shell session to start up a DHCP server bound to the Ethernet adapter
+      interface.
+      1. Run the following command to determine the name assigned to the adapter
+         interface.
          ```sh
          networksetup -listallhardwareports
          ```
          We hereafter refer to this name via the indeterminate `<interface-name>`.
       2. Run the following command to assign the static IP address `192.168.1.1` to the
-         provisioning adapter interface.
+         adapter interface.
          ```sh
          sudo ifconfig <interface-name> 192.168.1.1 netmask 255.255.255.0 up
          ```
