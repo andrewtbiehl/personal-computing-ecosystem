@@ -127,7 +127,7 @@ steps on the target computer.
    "
    ```
 3. Set up wireless connectivity.
-   1. Connect the computer to the router via the Ethernet cable.
+   1. Connect the computer to the router via the Ethernet cable and compatible adapter.
    2. Install all necessary packages via the following command.
       ```sh
       su --login root --command="
@@ -135,7 +135,7 @@ steps on the target computer.
           && apt-get install --assume-yes linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
       "
       ```
-   3. Detach the Ethernet cable, log out, restart the computer, and log in.
+   3. Detach the Ethernet cable and adapter, log out, restart the computer, and log in.
 4. Clone this repository to the computer.
 5. Download the target OS disk image to the computer via the following command.
    ```sh
