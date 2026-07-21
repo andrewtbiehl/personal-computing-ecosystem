@@ -144,12 +144,12 @@ steps on the target computer.
       "
       ```
    2. Log out, restart the computer, and log in.
-6. Detach the Ethernet cable and adapter from the computer.
-7. Download the target OS disk image to the computer via the following command.
+   - *The Ethernet connection can now be replaced with a wireless connection.*
+6. Download the target OS disk image to the computer via the following command.
    ```sh
    wget <os-disk-image-url>
    ```
-8. Connect the thumb drive to the computer and write the OS disk image onto the thumb
+7. Connect the thumb drive to the computer and write the OS disk image onto the thumb
    drive.
    1. Open the GNOME Disks application.
    2. Connect the thumb drive and select it inside GNOME Disks.
