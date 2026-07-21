@@ -11,8 +11,9 @@ hardware and software being used for development are listed below.
 
 ### Hardware
 
-- "Target" computer: (Intel-based) MacBook Air (11-inch, Early 2015)
-- "Provisioning" computer: (Intel-based) MacBook Air (11-inch, Mid 2013)
+- One "target" computer and one "provisioning" computer
+  - (Intel-based) MacBook Air (11-inch, Early 2015)
+  - (Intel-based) MacBook Air (11-inch, Mid 2013)
 - Ethernet cable
 - Two (2) USB-A to Ethernet adapters
   - *It is possible that some adapter-to-computer/OS pairings are incompatible; some
@@ -35,8 +36,8 @@ hardware and software being used for development are listed below.
 
 1. If required or inclined to do so, perform the following steps to set up the
    provisioning computer.
-   1. Reset the provisioning computer to factory settings and install MacOS 11 (Big
-      Sur).
+   1. Reset the provisioning computer to factory settings and install the latest version
+      of MacOS that it supports.
    2. Install Xcode Command Line Tools (via the command `xcode-select --install`).
 2. Clone this repository to the provisioning computer.
 3. Use the aforementioned URL to download the target OS disk image to the provisioning
