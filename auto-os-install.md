@@ -126,14 +126,13 @@ In anticipation of the transition to a Linux-native procedure, perform the follo
 steps on the target computer.
 
 1. Start up the computer and log in.
-2. Connect the computer to the router via the Ethernet cable and compatible adapter.
-3. Set up software repositories for the APT package manager via the following command.
+2. Set up software repositories for the APT package manager via the following command.
    ```sh
    su --login root --command="
      cp /usr/share/doc/apt/examples/debian.sources /etc/apt/sources.list.d/debian.sources
    "
    ```
-   - *This particular step does not require an internet connection.*
+3. Connect the computer to the router via the Ethernet cable and compatible adapter.
 4. Set up wireless networking capability.
    1. Install all necessary packages via the following command.
       ```sh
