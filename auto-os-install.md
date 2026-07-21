@@ -37,15 +37,15 @@ hardware and software being used for development are listed below.
    1. Reset the provisioning computer to factory settings and install MacOS 12
       (Monterey).
    2. Install Xcode Command Line Tools (via the command `xcode-select --install`).
-2. Use the aforementioned URL to download the target OS disk image to the provisioning
+2. Clone this repository to the provisioning computer.
+3. Use the aforementioned URL to download the target OS disk image to the provisioning
    computer.
-3. Connect the thumb drive to the provisioning computer and write the OS disk image onto
+4. Connect the thumb drive to the provisioning computer and write the OS disk image onto
    the thumb drive.
    - *Use, for example, a tool like [Balena Etcher](https://etcher.balena.io/).*
    - *If a disk image has already been written to the thumb drive, a dialog may appear
      that says "The disk you attached was not readable by this computer.". This is not
      an issue for tools like Balena Etcher; select "Ignore".*
-4. Clone this repository to the provisioning computer.
 5. Install [Dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) to the desktop
    directory of the provisioning computer via the following command.
    ```sh
