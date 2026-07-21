@@ -11,8 +11,8 @@ hardware and software being used for development are listed below.
 
 ### Hardware
 
-- "Target" computer: (Intel-based) MacBook Air (11-inch, Mid 2013)
-- "Provisioning" computer: (Intel-based) MacBook Air (11-inch, Early 2015)
+- "Target" computer: (Intel-based) MacBook Air (11-inch, Early 2015)
+- "Provisioning" computer: (Intel-based) MacBook Air (11-inch, Mid 2013)
 - Ethernet cable
 - Two (2) USB-A to Ethernet adapters
   - *It is possible that some adapter-to-computer/OS pairings are incompatible; some
@@ -35,8 +35,8 @@ hardware and software being used for development are listed below.
 
 1. If required or inclined to do so, perform the following steps to set up the
    provisioning computer.
-   1. Reset the provisioning computer to factory settings and install MacOS 12
-      (Monterey).
+   1. Reset the provisioning computer to factory settings and install MacOS 11 (Big
+      Sur).
    2. Install Xcode Command Line Tools (via the command `xcode-select --install`).
 2. Clone this repository to the provisioning computer.
 3. Use the aforementioned URL to download the target OS disk image to the provisioning
@@ -47,6 +47,7 @@ hardware and software being used for development are listed below.
    - *If a disk image has already been written to the thumb drive, a dialog may appear
      that says "The disk you attached was not readable by this computer.". This is not
      an issue for tools like Balena Etcher; select "Ignore".*
+   - *Balena Etcher may temporarily require full disk access to operate successfully.*
 5. Install [Dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) to the desktop
    directory of the provisioning computer via the following command.
    ```sh
