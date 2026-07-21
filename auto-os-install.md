@@ -127,15 +127,14 @@ steps on the target computer.
 
 1. Start up the computer and log in.
 2. Connect the computer to the router via the Ethernet cable and compatible adapter.
-3. Clone this repository to the computer.
-4. Set up software repositories for the APT package manager via the following command.
+3. Set up software repositories for the APT package manager via the following command.
    ```sh
    su --login root --command="
      cp /usr/share/doc/apt/examples/debian.sources /etc/apt/sources.list.d/debian.sources
    "
    ```
    - *This particular step does not require an internet connection.*
-5. Set up wireless networking capability.
+4. Set up wireless networking capability.
    1. Install all necessary packages via the following command.
       ```sh
       su --login root --command="
@@ -145,19 +144,6 @@ steps on the target computer.
       ```
    2. Log out, restart the computer, and log in.
    - *The Ethernet connection can now be replaced with a wireless connection.*
-6. Download the target OS disk image to the computer via the following command.
-   ```sh
-   wget <os-disk-image-url>
-   ```
-7. Connect the thumb drive to the computer and write the OS disk image onto the thumb
-   drive.
-   1. Open the GNOME Disks application.
-   2. Connect the thumb drive and select it inside GNOME Disks.
-   3. Click "Drive Options" ("&#8942;" icon) and then click "Restore Disk Image...".
-   4. Select the disk image file as the "Image to Restore", click "Start Restoring...",
-      and click "Restore".
-   5. Click "Power off this disk" ("&#9211;" icon).
-   6. Remove the thumb drive.
 
 ## Notes
 
