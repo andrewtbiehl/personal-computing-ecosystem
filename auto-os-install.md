@@ -122,28 +122,30 @@ In anticipation of the transition to a Linux-native procedure, perform the follo
 steps on the target computer.
 
 1. Start up the computer and log in.
-2. Set up software repositories for the APT package manager via the following command.
+2. Connect the computer to the router via the Ethernet cable and compatible adapter.
+3. Clone this repository to the computer.
+4. Set up software repositories for the APT package manager via the following command.
    ```sh
    su --login root --command="
      cp /usr/share/doc/apt/examples/debian.sources /etc/apt/sources.list.d/debian.sources
    "
    ```
-3. Set up wireless connectivity.
-   1. Connect the computer to the router via the Ethernet cable and compatible adapter.
-   2. Install all necessary packages via the following command.
+   - *This particular step does not require an internet connection.*
+5. Set up wireless connectivity.
+   1. Install all necessary packages via the following command.
       ```sh
       su --login root --command="
         apt-get update \
           && apt-get install --assume-yes linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
       "
       ```
-   3. Detach the Ethernet cable and adapter, log out, restart the computer, and log in.
-4. Clone this repository to the computer.
-5. Download the target OS disk image to the computer via the following command.
+   2. Log out, restart the computer, and log in.
+6. Detach the Ethernet cable and adapter from the computer.
+7. Download the target OS disk image to the computer via the following command.
    ```sh
    wget https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
    ```
-6. Connect the thumb drive to the computer and write the OS disk image onto the thumb
+8. Connect the thumb drive to the computer and write the OS disk image onto the thumb
    drive.
    1. Open the GNOME Disks application.
    2. Connect the thumb drive and select it inside GNOME Disks.
