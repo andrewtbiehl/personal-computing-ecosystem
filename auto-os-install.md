@@ -120,7 +120,8 @@ hardware and software being used for development are listed below.
    7. Press `F10` to execute the modified entry and begin the installation.
       - *Once the installation has completed, the computer will power off.*
    8. Start up the computer and log in.
-   9. Set up software repositories for the APT package manager via the following command.
+   9. Set up software repositories for the APT package manager via the following
+      command.
       ```sh
       su --login root --command="
         cp /usr/share/doc/apt/examples/debian.sources /etc/apt/sources.list.d/debian.sources
