@@ -119,30 +119,24 @@ hardware and software being used for development are listed below.
       ```
    7. Press `F10` to execute the modified entry and begin the installation.
       - *Once the installation has completed, the computer will power off.*
-
-### Postliminary steps
-
-In anticipation of the transition to a Linux-native procedure, perform the following
-steps on the target computer.
-
-1. Start up the computer and log in.
-2. Set up software repositories for the APT package manager via the following command.
-   ```sh
-   su --login root --command="
-     cp /usr/share/doc/apt/examples/debian.sources /etc/apt/sources.list.d/debian.sources
-   "
-   ```
-3. Connect the computer to the router via the Ethernet cable and compatible adapter.
-4. Set up wireless networking capability.
-   1. Install all necessary packages via the following command.
+   8. Start up the computer and log in.
+   9. Set up software repositories for the APT package manager via the following command.
       ```sh
       su --login root --command="
-        apt-get update \
-          && apt-get install --assume-yes linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
+        cp /usr/share/doc/apt/examples/debian.sources /etc/apt/sources.list.d/debian.sources
       "
       ```
-   2. Log out, restart the computer, and log in.
-   - *The Ethernet connection can now be replaced with a wireless connection.*
+   10. Connect the computer to the router via the Ethernet cable and compatible adapter.
+   11. Set up wireless networking capability.
+       1. Install all necessary packages via the following command.
+          ```sh
+          su --login root --command="
+            apt-get update \
+              && apt-get install --assume-yes linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
+          "
+          ```
+       2. Log out, restart the computer, and log in.
+       - *The Ethernet connection can now be replaced with a wireless connection.*
 
 ## Notes
 
