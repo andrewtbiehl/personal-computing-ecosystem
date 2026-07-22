@@ -35,32 +35,27 @@ hardware and software being used for development are listed below.
 
 ### Preliminary steps
 
-1. If required or inclined to do so, perform the following steps to set up the
-   provisioning computer.
-   1. Reset the provisioning computer to factory settings and install the latest version
-      of MacOS that it supports.
-   2. Install Xcode Command Line Tools via the following command.
-      ```sh
-      xcode-select --install
-      ```
+1. Ensure that the state of the provisioning computer is functionally identical to that
+   of a target computer at the conclusion of performing
+   [version `v0.1.0`](https://github.com/andrewtbiehl/personal-computing-ecosystem/tree/v0.1.0)
+   of this procedure.
+   - *This may or may not require "bootstrapping" the state of the provisioning computer
+     via an earlier version of this procedure.*
 2. Clone this repository to the provisioning computer.
-3. Download the target OS disk image, located at the url `<os-disk-image-url>`, to the
-   provisioning computer.
+3. Download the target OS disk image to the provisioning computer via the following
+   command.
+   ```sh
+   wget <os-disk-image-url>
+   ```
 4. Connect the thumb drive to the provisioning computer and write the OS disk image onto
    the thumb drive.
-   - *Use, for example, a tool like [Balena Etcher](https://etcher.balena.io/).*
-   - *If a disk image has already been written to the thumb drive, a dialog may appear
-     that says "The disk you attached was not readable by this computer.". This is not
-     an issue for tools like Balena Etcher; select "Ignore".*
-   - *Balena Etcher may temporarily require full disk access to operate successfully.*
-5. Install [Dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) to the desktop
-   directory of the provisioning computer via the following command.
-   ```sh
-   git -C ~/Desktop clone http://thekelleys.org.uk/git/dnsmasq.git \
-     && git -C ~/Desktop/dnsmasq checkout v2.91 \
-     && make -C ~/Desktop/dnsmasq
-   ```
-   - *Dnsmasq version 2.91 is pinned for reproducibility purposes.*
+   1. Open the GNOME Disks application.
+   2. Connect the thumb drive and select it inside GNOME Disks.
+   3. Click "Drive Options" ("&#8942;" icon) and then click "Restore Disk Image...".
+   4. Select the disk image file as the "Image to Restore", click "Start Restoring...",
+      and click "Restore".
+   5. Click "Power off this disk" ("&#9211;" icon).
+   6. Remove the thumb drive.
 
 ### Installation steps
 
@@ -72,28 +67,35 @@ hardware and software being used for development are listed below.
       1. Run the following command to determine the name assigned to the adapter
          interface.
          ```sh
-         networksetup -listallhardwareports
+         ip address show
          ```
          We hereafter refer to this name via the placeholder `<interface-name>`.
       2. Run the following command to assign the static IP address `192.168.1.1` to the
          adapter interface.
          ```sh
-         sudo ifconfig <interface-name> 192.168.1.1 netmask 255.255.255.0 up
+         su --login root --command="
+           ip address add 192.168.1.1/24 dev <interface-name> \
+             && ip link set dev <interface-name> up
+         "
          ```
       3. Start up the DHCP server via the following command.
          ```sh
-         sudo ~/Desktop/dnsmasq/src/dnsmasq \
-           --interface=<interface-name> \
-           --dhcp-boot=http://192.168.1.1:8080/preseed.txt \
-           --dhcp-range=192.168.1.2,192.168.1.2 \
-           --dhcp-leasefile=/tmp/dnsmasq.leases \
-           --no-daemon
+         su --login root --command="
+           dnsmasq \
+             --interface=<interface-name> \
+             --dhcp-boot=http://192.168.1.1:8080/preseed.txt \
+             --dhcp-range=192.168.1.2,192.168.1.2 \
+             --dhcp-leasefile=/tmp/dnsmasq.leases \
+             --no-daemon
+         "
          ```
       - *After completing these steps, remember to shut down the DHCP server and then
         reset the adapter interface configuration via the following command.*
         ```sh
-        sudo rm /tmp/dnsmasq.leases \
-          && sudo ifconfig <interface-name> delete 192.168.1.1
+        su --login root --command="
+          rm /tmp/dnsmasq.leases \
+            && ip address delete 192.168.1.1/24 dev <interface-name>
+        "
         ```
    4. Open a new shell session and start up an HTTP server that serves the contents of
       this repository via the following command.
