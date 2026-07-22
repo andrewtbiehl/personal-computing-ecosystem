@@ -28,7 +28,7 @@ hardware and software being used for development are listed below.
   ```
   https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
   ```
-  We hereafter refer to this URL via the indeterminate `<os-disk-image-url>`.
+  We hereafter refer to this URL via the placeholder `<os-disk-image-url>`.
   - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 
 ## Procedure
@@ -74,7 +74,7 @@ hardware and software being used for development are listed below.
          ```sh
          networksetup -listallhardwareports
          ```
-         We hereafter refer to this name via the indeterminate `<interface-name>`.
+         We hereafter refer to this name via the placeholder `<interface-name>`.
       2. Run the following command to assign the static IP address `192.168.1.1` to the
          adapter interface.
          ```sh
