@@ -37,7 +37,7 @@ hardware and software being used for development are listed below.
 
 1. Ensure that the state of the provisioning computer is functionally identical to that
    of a target computer at the conclusion of performing
-   [version `v0.1.0`](https://github.com/andrewtbiehl/personal-computing-ecosystem/tree/v0.1.0)
+   [version `v0.2.0`](https://github.com/andrewtbiehl/personal-computing-ecosystem/tree/v0.2.0)
    of this procedure.
    - *This may or may not require "bootstrapping" the state of the provisioning computer
      via an earlier version of this procedure.*
@@ -73,29 +73,23 @@ hardware and software being used for development are listed below.
       2. Run the following command to assign the static IP address `192.168.1.1` to the
          adapter interface.
          ```sh
-         su --login root --command="
-           ip address add 192.168.1.1/24 dev <interface-name> \
-             && ip link set dev <interface-name> up
-         "
+         sudo ip address add 192.168.1.1/24 dev <interface-name> \
+           && sudo ip link set dev <interface-name> up
          ```
       3. Start up the DHCP server via the following command.
          ```sh
-         su --login root --command="
-           dnsmasq \
-             --interface=<interface-name> \
-             --dhcp-boot=http://192.168.1.1:8080/preseed.txt \
-             --dhcp-range=192.168.1.2,192.168.1.2 \
-             --dhcp-leasefile=/tmp/dnsmasq.leases \
-             --no-daemon
-         "
+         sudo dnsmasq \
+           --interface=<interface-name> \
+           --dhcp-boot=http://192.168.1.1:8080/preseed.txt \
+           --dhcp-range=192.168.1.2,192.168.1.2 \
+           --dhcp-leasefile=/tmp/dnsmasq.leases \
+           --no-daemon
          ```
       - *After completing these steps, remember to shut down the DHCP server and then
         reset the adapter interface configuration via the following command.*
         ```sh
-        su --login root --command="
-          rm /tmp/dnsmasq.leases \
-            && ip address delete 192.168.1.1/24 dev <interface-name>
-        "
+        sudo rm /tmp/dnsmasq.leases \
+          && sudo ip address delete 192.168.1.1/24 dev <interface-name>
         ```
    4. Open a new shell session and start up an HTTP server that serves the contents of
       this repository via the following command.
