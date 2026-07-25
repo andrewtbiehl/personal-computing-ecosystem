@@ -37,7 +37,7 @@ hardware and software being used for development are listed below.
 
 1. Ensure that the state of the provisioning computer is functionally identical to that
    of a target computer at the conclusion of performing
-   [version `v0.2.0`](https://github.com/andrewtbiehl/personal-computing-ecosystem/tree/v0.2.0)
+   [version `v0.3.0`](https://github.com/andrewtbiehl/personal-computing-ecosystem/tree/v0.3.0)
    of this procedure.
    - *This may or may not require "bootstrapping" the state of the provisioning computer
      via an earlier version of this procedure.*
@@ -56,6 +56,26 @@ hardware and software being used for development are listed below.
       and click "Restore".
    5. Click "Power off this disk" ("&#9211;" icon).
    6. Remove the thumb drive.
+
+### Optional preliminary steps
+
+In anticipation of eventually kickstarting installation via an automatically executed
+networking script on a live OS, *optionally* perform the following steps on the
+provisioning computer to create a basic live OS disk image.
+
+1. Create a Nix flake directory and file via the following command.
+   ```sh
+   mkdir ~/basic-live-os \
+     && touch ~/basic-live-os/flake.nix
+   ```
+2. Write the example `flake.nix` contents from
+   [this NiXOS Wiki article](https://wiki.nixos.org/w/index.php?title=Creating_a_NixOS_live_CD&oldid=19025)
+   to `~/basic-live-os/flake.nix`.
+3. Build the OS disk image via the following command.
+   ```sh
+   nix build ~/basic-live-os --extra-experimental-features "nix-command flakes"
+   ```
+   - *The disk image will now be located at `~/result/iso/`.*
 
 ### Installation steps
 
