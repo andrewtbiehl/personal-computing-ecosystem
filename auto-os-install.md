@@ -138,11 +138,12 @@ hardware and software being used for development are listed below.
        - *The Ethernet connection can now be replaced with a wireless connection.*
    13. Install the Nix package manager via the command
        ```sh
-       curl --proto '=https' --tlsv1.2 --location https://nixos.org/nix/install | sh -s -- --daemon
+       curl --proto '=https' --tlsv1.2 https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
        ```
        and subsequently typing in your password as prompted.
        - *This command is essentially
-         [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux).*
+         [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux),
+         pinned to Nix version 2.35.1 for reproducibility purposes.*
 
 ### Optional postliminary steps
 
