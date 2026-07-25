@@ -41,7 +41,7 @@ hardware and software being used for development are listed below.
    of this procedure.
    - *This may or may not require "bootstrapping" the state of the provisioning computer
      via an earlier version of this procedure.*
-2. Clone this repository to the provisioning computer.
+2. Clone this repository to the home directory on the provisioning computer.
 3. Download the target OS disk image to the provisioning computer via the following
    command.
    ```sh
@@ -61,19 +61,11 @@ hardware and software being used for development are listed below.
 
 In anticipation of eventually kickstarting installation via an automatically executed
 networking script on a live OS, *optionally* perform the following steps on the
-provisioning computer to create a basic live OS disk image.
+provisioning computer.
 
-1. Create a Nix flake directory and file via the following command.
+1. Build the live OS disk image via the following command.
    ```sh
-   mkdir ~/basic-live-os \
-     && touch ~/basic-live-os/flake.nix
-   ```
-2. Write the example `flake.nix` contents from
-   [this NiXOS Wiki article](https://wiki.nixos.org/w/index.php?title=Creating_a_NixOS_live_CD&oldid=19025)
-   to `~/basic-live-os/flake.nix`.
-3. Build the OS disk image via the following command.
-   ```sh
-   nix build ~/basic-live-os --extra-experimental-features "nix-command flakes"
+   nix build ~/personal-computing-ecosystem/basic-live-os --extra-experimental-features "nix-command flakes"
    ```
    - *The disk image will now be located at `~/result/iso/`.*
 
