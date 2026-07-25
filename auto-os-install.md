@@ -136,9 +136,13 @@ hardware and software being used for development are listed below.
           ```
        2. Log out, restart the computer, and log in.
        - *The Ethernet connection can now be replaced with a wireless connection.*
-   13. Install the Nix package manager via
-       [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux)
+   13. Install the Nix package manager via the command
+       ```sh
+       curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
+       ```
        and subsequently typing in your password as prompted.
+       - *This command is
+         [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux).*
 
 ### Optional postliminary steps
 
