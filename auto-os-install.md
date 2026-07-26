@@ -160,10 +160,9 @@ networking script on a live OS, *optionally* perform the following steps.
 3. Perform the entirety of installation step (1) on the provisioning computer again and
    then perform the first four sub-steps of installation step (2) on the target computer
    to boot into the live OS.
-4. Verify the network connection between the target and provisioning computers by
-   running the command `curl http://192.168.1.1:8080/preseed.txt` on the target
-   computer.
-5. Power off the target computer via the command `poweroff`.
+   - *The live OS will automatically verify the network connection between the target
+     and provisioning computers by access the preseed file over the
+     network, and then it will automatically shut down the target computer.*
 
 ## Notes
 
