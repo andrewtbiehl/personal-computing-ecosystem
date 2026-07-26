@@ -152,7 +152,7 @@ networking script on a live OS, *optionally* perform the following steps.
 
 1. Build the live OS disk image on the provisioning computer via the following command.
    ```sh
-   nix build ~/personal-computing-ecosystem/basic-live-os --extra-experimental-features "nix-command flakes"
+   nix build ~/personal-computing-ecosystem/auto-exec-os --extra-experimental-features "nix-command flakes"
    ```
    - *The disk image will now be located at `~/result/iso/`.*
 2. Follow the procedure described in preliminary step (4) to write the live OS disk
