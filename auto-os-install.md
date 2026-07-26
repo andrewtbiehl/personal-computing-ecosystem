@@ -57,18 +57,6 @@ hardware and software being used for development are listed below.
    5. Click "Power off this disk" ("&#9211;" icon).
    6. Remove the thumb drive.
 
-### Optional preliminary steps
-
-In anticipation of eventually kickstarting installation via an automatically executed
-networking script on a live OS, *optionally* perform the following steps on the
-provisioning computer.
-
-1. Build the live OS disk image via the following command.
-   ```sh
-   nix build ~/personal-computing-ecosystem/basic-live-os --extra-experimental-features "nix-command flakes"
-   ```
-   - *The disk image will now be located at `~/result/iso/`.*
-
 ### Installation steps
 
 1. Perform the following steps on the provisioning computer.
@@ -156,6 +144,26 @@ provisioning computer.
        - *This command is essentially
          [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux),
          pinned to Nix version 2.35.1 for reproducibility purposes.*
+
+### Optional postliminary steps
+
+In anticipation of eventually kickstarting installation via an automatically executed
+networking script on a live OS, *optionally* perform the following steps.
+
+1. Build the live OS disk image on the provisioning computer via the following command.
+   ```sh
+   nix build ~/personal-computing-ecosystem/basic-live-os --extra-experimental-features "nix-command flakes"
+   ```
+   - *The disk image will now be located at `~/result/iso/`.*
+2. Follow the procedure described in preliminary step (4) to write the live OS disk
+   image onto the thumb drive.
+3. Perform the entirety of installation step (1) on the provisioning computer again and
+   then perform the first four sub-steps of installation step (2) on the target computer
+   to boot into the live OS.
+4. Verify the network connection between the target and provisioning computers by
+   running the command `curl http://192.168.1.1:8080/preseed.txt` on the target
+   computer.
+5. Power off the target computer via the command `poweroff`.
 
 ## Notes
 
