@@ -1,6 +1,6 @@
 {
   description = "Live OS with automatically executed networking script";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
   outputs = { self, nixpkgs }: {
     packages.x86_64-linux.default = self.nixosConfigurations.autoExecOS.config.system.build.isoImage;
     nixosConfigurations = {
