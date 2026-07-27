@@ -161,8 +161,8 @@ networking script on a live OS, *optionally* perform the following steps.
    then perform the first four sub-steps of installation step (2) on the target computer
    to boot into the live OS.
    - *The live OS will automatically verify the network connection between the target
-     and provisioning computers by access the preseed file over the
-     network, and then it will automatically shut down the target computer.*
+     and provisioning computers by accessing the preseed file over the network, and then
+     it will automatically shut down the target computer.*
 
 ## Notes
 
