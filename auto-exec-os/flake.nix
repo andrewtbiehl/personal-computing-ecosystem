@@ -1,10 +1,10 @@
 {
-  description = "Minimal NixOS installation media";
+  description = "Basic live OS";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
   outputs = { self, nixpkgs }: {
-    packages.x86_64-linux.default = self.nixosConfigurations.exampleIso.config.system.build.isoImage;
+    packages.x86_64-linux.default = self.nixosConfigurations.liveOS.config.system.build.isoImage;
     nixosConfigurations = {
-      exampleIso = nixpkgs.lib.nixosSystem {
+      liveOS = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ({ pkgs, modulesPath, ... }: {
