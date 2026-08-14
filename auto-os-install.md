@@ -23,13 +23,7 @@ hardware and software being used for development are listed below.
 
 ### Software
 
-- "Target" OS: Debian 13 (Trixie). The official Debian 13 64-bit PC disk image can be
-  downloaded from the following URL.
-  ```
-  https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
-  ```
-  We hereafter refer to this URL via the placeholder `<os-disk-image-url>`.
-  - *Debian version 13.5.0 is pinned for reproducibility purposes.*
+- "Target" OS: Debian 13 (Trixie).
 
 ## Procedure
 
@@ -45,8 +39,9 @@ hardware and software being used for development are listed below.
 3. Download the target OS disk image to the provisioning computer via the following
    command.
    ```sh
-   wget <os-disk-image-url>
+   wget https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
    ```
+   - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 4. Connect the thumb drive to the provisioning computer and write the OS disk image onto
    the thumb drive.
    1. Open the GNOME Disks application.
