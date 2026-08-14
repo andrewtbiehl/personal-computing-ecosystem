@@ -94,38 +94,40 @@ hardware and software being used for development are listed below.
       ```
       - *Remember to shut down the HTTP server after completing these steps.*
 2. Perform the following steps on the (initially powered off) target computer.
-   1. Connect the target computer to the provisioning computer via the Ethernet cable
+   1. Follow [Apple's official directions](https://support.apple.com/en-us/102539) to
+      reset NVRAM and then power off the computer again.
+   2. Connect the target computer to the provisioning computer via the Ethernet cable
       and adapters.
-   2. Insert the bootable thumb drive into the computer.
-   3. Press the power button while holding down the `option`/`alt` key to start up the
+   3. Insert the bootable thumb drive into the computer.
+   4. Press the power button while holding down the `option`/`alt` key to start up the
       computer and enter the boot manager.
-   4. Select any of the external drive options labeled "EFI Boot" (represented by yellow
+   5. Select any of the external drive options labeled "EFI Boot" (represented by yellow
       drive icons).
       - *All options are functionally identical; if there is more than one, choose the
         left-most option for consistency.*
-   5. When the GRUB menu appears, press `e` to open the GRUB editor.
-   6. Edit the GRUB script that appears so as to have precisely the following content.
+   6. When the GRUB menu appears, press `e` to open the GRUB editor.
+   7. Edit the GRUB script that appears so as to have precisely the following content.
       ```
       linux /install.amd/vmlinuz auto=true priority=critical --- intel_iommu=off
       initrd /install.amd/initrd.gz
       ```
-   7. Press `F10` to execute the modified entry and begin the installation.
+   8. Press `F10` to execute the modified entry and begin the installation.
       - *Once the installation has completed, the computer will power off.*
-   8. Start up the computer and log in.
-   9. Grant administrative privileges to the initial user.
-      1. Add the initial user to the `sudo` group via the following command.
-      ```sh
-      su --login root --command="usermod --append --groups sudo andrew"
-      ```
-      2. Log out and log back in.
-   10. Set up software repositories for the APT package manager via the following
+   9. Start up the computer and log in.
+   10. Grant administrative privileges to the initial user.
+       1. Add the initial user to the `sudo` group via the following command.
+       ```sh
+       su --login root --command="usermod --append --groups sudo andrew"
+       ```
+       2. Log out and log back in.
+   11. Set up software repositories for the APT package manager via the following
        command.
        ```sh
        sudo cp /usr/share/doc/apt/examples/debian.sources \
          /etc/apt/sources.list.d/debian.sources
        ```
-   11. Connect the computer to the router via the Ethernet cable and compatible adapter.
-   12. Set up wireless networking capability.
+   12. Connect the computer to the router via the Ethernet cable and compatible adapter.
+   13. Set up wireless networking capability.
        1. Install all necessary packages via the following command.
           ```sh
           sudo apt-get update \
@@ -134,7 +136,7 @@ hardware and software being used for development are listed below.
           ```
        2. Log out, restart the computer, and log in.
        - *The Ethernet connection can now be replaced with a wireless connection.*
-   13. Install the Nix package manager via the command
+   14. Install the Nix package manager via the command
        ```sh
        curl --proto '=https' --tlsv1.2 \
          https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
