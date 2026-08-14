@@ -36,10 +36,10 @@ hardware and software being used for development are listed below.
    - *This may or may not require "bootstrapping" the state of the provisioning computer
      via an earlier version of this procedure.*
 2. Clone this repository to the home directory on the provisioning computer.
-3. Download the target OS disk image to the provisioning computer via the following
-   command.
+3. Download the target OS disk image to this repository on the provisioning computer via
+   the following command.
    ```sh
-   wget https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
+   wget --output-document="$HOME/personal-computing-ecosystem/debian.iso" https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
    ```
    - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 4. Connect the thumb drive to the provisioning computer and write the OS disk image onto
