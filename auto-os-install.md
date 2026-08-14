@@ -39,7 +39,8 @@ hardware and software being used for development are listed below.
 3. Download the target OS disk image to this repository on the provisioning computer via
    the following command.
    ```sh
-   wget --output-document="$HOME/personal-computing-ecosystem/debian.iso" https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
+   wget --output-document="$HOME/personal-computing-ecosystem/debian.iso" \
+     https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
    ```
    - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 4. Connect the thumb drive to the provisioning computer and write the OS disk image onto
@@ -120,20 +121,23 @@ hardware and software being used for development are listed below.
    10. Set up software repositories for the APT package manager via the following
        command.
        ```sh
-       sudo cp /usr/share/doc/apt/examples/debian.sources /etc/apt/sources.list.d/debian.sources
+       sudo cp /usr/share/doc/apt/examples/debian.sources \
+         /etc/apt/sources.list.d/debian.sources
        ```
    11. Connect the computer to the router via the Ethernet cable and compatible adapter.
    12. Set up wireless networking capability.
        1. Install all necessary packages via the following command.
           ```sh
           sudo apt-get update \
-            && sudo apt-get install --assume-yes linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
+            && sudo apt-get install --assume-yes \
+              linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
           ```
        2. Log out, restart the computer, and log in.
        - *The Ethernet connection can now be replaced with a wireless connection.*
    13. Install the Nix package manager via the command
        ```sh
-       curl --proto '=https' --tlsv1.2 https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
+       curl --proto '=https' --tlsv1.2 \
+         https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
        ```
        and subsequently typing in your password as prompted.
        - *This command is essentially
@@ -147,7 +151,8 @@ networking script on a live OS, *optionally* perform the following steps.
 
 1. Build the live OS disk image on the provisioning computer via the following command.
    ```sh
-   nix build ~/personal-computing-ecosystem/auto-exec-os --extra-experimental-features "nix-command flakes"
+   nix build ~/personal-computing-ecosystem/auto-exec-os \
+     --extra-experimental-features "nix-command flakes"
    ```
    - *The disk image will now be located at `~/result/iso/`.*
 2. Follow the procedure described in preliminary step (4) to write the live OS disk
