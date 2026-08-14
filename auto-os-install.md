@@ -94,7 +94,7 @@ hardware and software being used for development are listed below.
    4. Open a new shell session and start up an HTTP server that serves the contents of
       this repository via the following command.
       ```sh
-      python3 -m http.server
+      python3 -m http.server --directory ~/personal-computing-ecosystem
       ```
       - *Remember to shut down the HTTP server after completing these steps.*
 2. Perform the following steps on the (initially powered off) target computer.
