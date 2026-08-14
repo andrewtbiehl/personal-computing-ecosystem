@@ -80,7 +80,7 @@ hardware and software being used for development are listed below.
          ```sh
          sudo dnsmasq \
            --interface=<interface-name> \
-           --dhcp-boot=http://192.168.1.1:8080/preseed.txt \
+           --dhcp-boot=http://192.168.1.1:8000/preseed.txt \
            --dhcp-range=192.168.1.2,192.168.1.2 \
            --dhcp-leasefile=/tmp/dnsmasq.leases \
            --no-daemon
@@ -94,7 +94,7 @@ hardware and software being used for development are listed below.
    4. Open a new shell session and start up an HTTP server that serves the contents of
       this repository via the following command.
       ```sh
-      python3 -m http.server 8080
+      python3 -m http.server
       ```
       - *Remember to shut down the HTTP server after completing these steps.*
 2. Perform the following steps on the (initially powered off) target computer.
@@ -161,7 +161,7 @@ networking script on a live OS, *optionally* perform the following steps.
    then perform the first four sub-steps of installation step (2) on the target computer
    to boot into the live OS.
 4. Verify the network connection between the target and provisioning computers by
-   running the command `curl http://192.168.1.1:8080/preseed.txt` on the target
+   running the command `curl http://192.168.1.1:8000/preseed.txt` on the target
    computer.
 5. Power off the target computer via the command `poweroff`.
 
