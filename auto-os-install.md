@@ -116,9 +116,9 @@ hardware and software being used for development are listed below.
    9. Start up the computer and log in.
    10. Grant administrative privileges to the initial user.
        1. Add the initial user to the `sudo` group via the following command.
-       ```sh
-       su --login root --command="usermod --append --groups sudo andrew"
-       ```
+          ```sh
+          su --login root --command="usermod --append --groups sudo andrew"
+          ```
        2. Log out and log back in.
    11. Set up software repositories for the APT package manager via the following
        command.
