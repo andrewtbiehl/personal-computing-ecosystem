@@ -9,6 +9,11 @@ d-i debian-installer/country string US
 # Set the keyboard layout to US English.
 d-i keyboard-configuration/xkb-keymap select us
 
+# Pin the system time for reproducibility purposes.
+# The system time is pinned to approximately a month after the snapshot timestamp of the
+# netboot installation files.
+d-i preseed/early_command string date -s "2026-08-13 12:00:00"
+
 # Set the root password to 'password'.
 d-i passwd/root-password password password
 d-i passwd/root-password-again password password
@@ -42,3 +47,17 @@ d-i finish-install/reboot_in_progress note
 
 # Power off (and do not restart) the computer once installation has completed.
 d-i debian-installer/exit/poweroff boolean true
+
+# Use a local offline mirror for installation.
+d-i mirror/country string manual
+d-i mirror/http/hostname string 192.168.1.1:8000
+d-i mirror/http/directory string /debian-iso
+
+# Disable authentication requirements to enable installation from the offline mirror.
+# Note: The installer apparently still requires the existence of a syntactically valid
+# cryptographic signature to function properly.
+d-i debian-installer/allow_unauthenticated boolean true
+
+# Disable supplementary APT repositories (e.g. security, updates).
+# This prevents missing repository errors while using the offline mirror.
+d-i apt-setup/services-select multiselect
