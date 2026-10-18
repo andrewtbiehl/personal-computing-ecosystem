@@ -62,7 +62,7 @@ hardware and software being used for development are listed below.
    1. Download the target OS netboot installer kernel and initial ramdisk via the
       following command.
       ```sh
-      wget --directory-prefix=~/personal-computing-ecosystem/ \
+      wget --directory-prefix=$HOME/personal-computing-ecosystem/ \
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/linux \
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/initrd.gz
       ```
@@ -87,7 +87,7 @@ hardware and software being used for development are listed below.
         | zgrep "^Filename:" \
         | awk '{print "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2}' \
         | wget \
-          --directory-prefix=~/personal-computing-ecosystem/debian-iso/pool/main/netboot-udebs \
+          --directory-prefix=$HOME/personal-computing-ecosystem/debian-iso/pool/main/netboot-udebs \
           --input-file=-
       ```
    4. Update the disk image's repository metadata to register the new packages, via the
