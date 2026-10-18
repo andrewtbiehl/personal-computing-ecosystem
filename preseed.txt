@@ -39,7 +39,7 @@ d-i partman-auto/method string regular
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 
-# Install additional software
+# Install additional software.
 d-i pkgsel/include string curl git
 
 # Bypass final successful installation acknowledgment prompt.
