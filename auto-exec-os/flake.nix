@@ -9,6 +9,8 @@
         modules = [
           ({ pkgs, modulesPath, ... }: {
             imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
+            # Set a dummy password to enable remote SSH access.
+            users.users.root.password = "password";
           })
         ];
       };

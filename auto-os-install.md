@@ -178,96 +178,101 @@ hardware and software being used for development are listed below.
       drive icons).
       - *All options are functionally identical; if there is more than one, choose the
         left-most option for consistency.*
-   6. Perform the following steps to trigger the automatic OS installation.
-      1. Switch to the root user environment via the following command.
-         ```sh
-         sudo --login
-         ```
-      2. Run the following command to identify the internal drive block device name
-         (e.g. `/dev/sda` or `/dev/nvme0n1`) and then determine the corresponding first
-         partition name (e.g. `/dev/sda1` or `/dev/nvme0n1p1`, respectively).
-         ```sh
-         lsblk
-         ```
-         We hereafter refer to the block device name and corresponding first partition
-         name via the placeholders `<device-name>` and `<partition-name>`, respectively.
-      3. Run the following command.
-         ```sh
-         wipefs --all <device-name> \
-           && sgdisk --zap-all <device-name> \
-           && sgdisk --new=1:0:+512M --typecode=1:EF00 <device-name> \
-           && udevadm settle \
-           && mkfs.vfat <partition-name> \
-           && mount --mkdir <partition-name> /mnt/efi \
-           && curl --remote-name-all --output-dir /mnt/efi \
-                http://192.168.1.1:8000/linux \
-                http://192.168.1.1:8000/initrd.gz \
-           && bootctl --esp-path=/mnt/efi install
-         ```
-         This wipes the internal drive of all filesystems and partition tables, creates
-         and formats a new EFI System Partition on the drive, downloads the netboot
-         kernel and initial ramdisk to the partition, and installs the systemd-boot
-         bootloader on the partition and registers it with NVRAM.
-      4. Create the default boot entry configuration file via the following command.
-         ```sh
-         cat << 'EOF' > /mnt/efi/loader/entries/default.conf
-         linux /linux
-         initrd /initrd.gz
-         options auto=true priority=critical --- intel_iommu=off
-         EOF
-         ```
-      5. Restart the computer via the following command.
-         ```sh
-         reboot
-         ```
-      - *Once the installation has completed, the computer will power off.*
-   7. Start up the computer and log in.
-   8. Grant administrative privileges to the initial user.
+3. On the provisioning computer, open a new shell session and perform the following
+   steps to trigger the automatic OS installation (on the target computer).
+   1. Remotely log in to the target computer's root user environment by running the
+      following command, and subsequently entering the live OS root password,
+      "password".
+      ```sh
+      ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+        root@192.168.1.2
+      ```
+   2. Run the following command to identify the internal drive block device name
+      (e.g. `/dev/sda` or `/dev/nvme0n1`) and then determine the corresponding first
+      partition name (e.g. `/dev/sda1` or `/dev/nvme0n1p1`, respectively).
+      ```sh
+      lsblk
+      ```
+      We hereafter refer to the block device name and corresponding first partition
+      name via the placeholders `<device-name>` and `<partition-name>`, respectively.
+   3. Run the following command.
+      ```sh
+      wipefs --all <device-name> \
+        && sgdisk --zap-all <device-name> \
+        && sgdisk --new=1:0:+512M --typecode=1:EF00 <device-name> \
+        && udevadm settle \
+        && mkfs.vfat <partition-name> \
+        && mount --mkdir <partition-name> /mnt/efi \
+        && curl --remote-name-all --output-dir /mnt/efi \
+             http://192.168.1.1:8000/linux \
+             http://192.168.1.1:8000/initrd.gz \
+        && bootctl --esp-path=/mnt/efi install
+      ```
+      This wipes the internal drive of all filesystems and partition tables, creates
+      and formats a new EFI System Partition on the drive, downloads the netboot
+      kernel and initial ramdisk to the partition, and installs the systemd-boot
+      bootloader on the partition and registers it with NVRAM.
+   4. Create the default boot entry configuration file via the following command.
+      ```sh
+      cat << 'EOF' > /mnt/efi/loader/entries/default.conf
+      linux /linux
+      initrd /initrd.gz
+      options auto=true priority=critical --- intel_iommu=off
+      EOF
+      ```
+   5. Restart the computer via the following command.
+      ```sh
+      reboot
+      ```
+   - *Once the installation has completed, the target computer will power off.*
+4. Perform the following steps on the target computer.
+   1. Start up the computer and log in.
+   2. Grant administrative privileges to the initial user.
       1. Add the initial user to the `sudo` group via the following command.
          ```sh
          su --login root --command="usermod --append --groups sudo andrew"
          ```
       2. Log out and log back in.
-   9. Run the following command to identify the boot number of the "Linux Boot Manager"
+   3. Run the following command to identify the boot number of the "Linux Boot Manager"
       boot entry.
       ```sh
       efibootmgr
       ```
       We hereafter refer to this boot number via the placeholder `<boot-number>`.
-   10. Remove the "Linux Boot Manager" boot entry via the following command.
-       ```sh
-       sudo efibootmgr --bootnum <boot-number> --delete-bootnum
-       ```
-   11. Deactivate the temporary software repository configuration used to install the
-       target OS, via the following command.
-       ```sh
-       sudo rm /etc/apt/sources.list
-       ```
-   12. Set up software repositories for the APT package manager via the following
-       command.
-       ```sh
-       sudo cp /usr/share/doc/apt/examples/debian.sources \
-         /etc/apt/sources.list.d/debian.sources
-       ```
-   13. Connect the computer to the router via the Ethernet cable and compatible adapter.
-   14. Set up wireless networking capability.
-       1. Install all necessary packages via the following command.
-          ```sh
-          sudo apt-get update \
-            && sudo apt-get install --assume-yes \
-              linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
-          ```
-       2. Log out, restart the computer, and log in.
-       - *The Ethernet connection can now be replaced with a wireless connection.*
-   15. Install the Nix package manager via the command
-       ```sh
-       curl --proto '=https' --tlsv1.2 \
-         https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
-       ```
-       and subsequently typing in your password as prompted.
-       - *This command is essentially
-         [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux),
-         pinned to Nix version 2.35.1 for reproducibility purposes.*
+   4. Remove the "Linux Boot Manager" boot entry via the following command.
+      ```sh
+      sudo efibootmgr --bootnum <boot-number> --delete-bootnum
+      ```
+   5. Deactivate the temporary software repository configuration used to install the
+      target OS, via the following command.
+      ```sh
+      sudo rm /etc/apt/sources.list
+      ```
+   6. Set up software repositories for the APT package manager via the following
+      command.
+      ```sh
+      sudo cp /usr/share/doc/apt/examples/debian.sources \
+        /etc/apt/sources.list.d/debian.sources
+      ```
+   7. Connect the computer to the router via the Ethernet cable and compatible adapter.
+   8. Set up wireless networking capability.
+      1. Install all necessary packages via the following command.
+         ```sh
+         sudo apt-get update \
+           && sudo apt-get install --assume-yes \
+             linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
+         ```
+      2. Log out, restart the computer, and log in.
+      - *The Ethernet connection can now be replaced with a wireless connection.*
+   9. Install the Nix package manager via the command
+      ```sh
+      curl --proto '=https' --tlsv1.2 \
+        https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
+      ```
+      and subsequently typing in your password as prompted.
+      - *This command is essentially
+        [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux),
+        pinned to Nix version 2.35.1 for reproducibility purposes.*
 
 ## Notes
 
