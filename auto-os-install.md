@@ -39,7 +39,7 @@ hardware and software being used for development are listed below.
 3. Download the target OS disk image to this repository on the provisioning computer via
    the following command.
    ```sh
-   wget --output-document="$HOME/personal-computing-ecosystem/debian.iso" \
+   wget --output-document=$HOME/personal-computing-ecosystem/debian.iso \
      https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
    ```
    - *Debian version 13.5.0 is pinned for reproducibility purposes.*
