@@ -186,42 +186,9 @@ hardware and software being used for development are listed below.
       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
         root@192.168.1.2
       ```
-   2. Run the following command to attempt to correctly identify the internal drive
-      block device name.
+   2. Download and execute the OS installation setup script via the following command.
       ```sh
-      INTERNAL_DRIVE_DEVICE_NAME=$(lsblk --paths --nodeps --noheadings \
-          --output NAME,TYPE,TRAN \
-        | awk '$2 == "disk" && $3 != "usb" {print $1}')
-      ```
-   3. Run the following command.
-      ```sh
-      wipefs --all $INTERNAL_DRIVE_DEVICE_NAME \
-        && sgdisk --zap-all $INTERNAL_DRIVE_DEVICE_NAME \
-        && sgdisk --new=1:0:+512M --typecode=1:EF00 \
-          --change-name=1:EFI_PARTITION $INTERNAL_DRIVE_DEVICE_NAME \
-        && udevadm settle \
-        && mkfs.vfat /dev/disk/by-partlabel/EFI_PARTITION \
-        && mount --mkdir /dev/disk/by-partlabel/EFI_PARTITION /mnt/efi \
-        && curl --remote-name-all --output-dir /mnt/efi \
-          http://192.168.1.1:8000/linux \
-          http://192.168.1.1:8000/initrd.gz \
-        && bootctl --esp-path=/mnt/efi install
-      ```
-      This wipes the identified drive of all filesystems and partition tables, creates
-      and formats a new EFI System Partition on the drive, downloads the netboot
-      kernel and initial ramdisk to the partition, and installs the systemd-boot
-      bootloader on the partition and registers it with NVRAM.
-   4. Create the default boot entry configuration file via the following command.
-      ```sh
-      cat << 'EOF' > /mnt/efi/loader/entries/default.conf
-      linux /linux
-      initrd /initrd.gz
-      options auto=true priority=critical --- intel_iommu=off
-      EOF
-      ```
-   5. Restart the computer via the following command.
-      ```sh
-      reboot
+      curl http://192.168.1.1:8000/os-installation-setup.sh | sh
       ```
    - *Once the installation has completed, the target computer will power off.*
 4. Perform the following steps on the target computer.
