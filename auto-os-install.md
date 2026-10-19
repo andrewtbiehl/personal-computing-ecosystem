@@ -177,19 +177,13 @@ hardware and software being used for development are listed below.
       drive icons).
       - *All options are functionally identical; if there is more than one, choose the
         left-most option for consistency.*
-3. On the provisioning computer, open a new shell session and perform the following
-   steps to trigger the automatic OS installation (on the target computer).
-   1. Remotely log in to the target computer's root user environment by running the
-      following command, and subsequently entering the live OS root password,
-      "password".
-      ```sh
-      ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-        root@192.168.1.2
-      ```
-   2. Download and execute the OS installation setup script via the following command.
-      ```sh
-      curl http://192.168.1.1:8000/os-installation-setup.sh | sh
-      ```
+3. On the provisioning computer, open a new shell session, run the following command,
+   and subsequently enter the target computer's live OS root password, "password". This
+   will trigger the automatic OS installation (on the target computer).
+   ```sh
+   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+     root@192.168.1.2 < ~/personal-computing-ecosystem/os-installation-setup.sh
+   ```
    - *Once the installation has completed, the target computer will power off.*
 4. Perform the following steps on the target computer.
    1. Start up the computer and log in.
