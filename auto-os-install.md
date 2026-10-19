@@ -49,8 +49,7 @@ hardware and software being used for development are listed below.
      --extra-experimental-features "nix-command flakes"
    ```
    - *The disk image will now be located at `~/result/iso/`.*
-5. Connect the thumb drive to the provisioning computer and write the live OS disk image
-   onto the thumb drive.
+5. Use the provisioning computer to write the live OS disk image onto the thumb drive.
    1. Open the GNOME Disks application.
    2. Connect the thumb drive and select it inside GNOME Disks.
    3. Click "Drive Options" ("&#8942;" icon) and then click "Restore Disk Image...".
