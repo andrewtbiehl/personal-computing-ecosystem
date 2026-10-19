@@ -186,28 +186,28 @@ hardware and software being used for development are listed below.
       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
         root@192.168.1.2
       ```
-   2. Run the following command to identify the internal drive block device name
-      (e.g. `/dev/sda` or `/dev/nvme0n1`) and then determine the corresponding first
-      partition name (e.g. `/dev/sda1` or `/dev/nvme0n1p1`, respectively).
+   2. Run the following command to attempt to correctly identify the internal drive
+      block device name.
       ```sh
-      lsblk
+      INTERNAL_DRIVE_DEVICE_NAME=$(lsblk --paths --nodeps --noheadings \
+          --output NAME,TYPE,TRAN \
+        | awk '$2 == "disk" && $3 != "usb" {print $1}')
       ```
-      We hereafter refer to the block device name and corresponding first partition
-      name via the placeholders `<device-name>` and `<partition-name>`, respectively.
    3. Run the following command.
       ```sh
-      wipefs --all <device-name> \
-        && sgdisk --zap-all <device-name> \
-        && sgdisk --new=1:0:+512M --typecode=1:EF00 <device-name> \
+      wipefs --all $INTERNAL_DRIVE_DEVICE_NAME \
+        && sgdisk --zap-all $INTERNAL_DRIVE_DEVICE_NAME \
+        && sgdisk --new=1:0:+512M --typecode=1:EF00 \
+          --change-name=1:EFI_PARTITION $INTERNAL_DRIVE_DEVICE_NAME \
         && udevadm settle \
-        && mkfs.vfat <partition-name> \
-        && mount --mkdir <partition-name> /mnt/efi \
+        && mkfs.vfat /dev/disk/by-partlabel/EFI_PARTITION \
+        && mount --mkdir /dev/disk/by-partlabel/EFI_PARTITION /mnt/efi \
         && curl --remote-name-all --output-dir /mnt/efi \
           http://192.168.1.1:8000/linux \
           http://192.168.1.1:8000/initrd.gz \
         && bootctl --esp-path=/mnt/efi install
       ```
-      This wipes the internal drive of all filesystems and partition tables, creates
+      This wipes the identified drive of all filesystems and partition tables, creates
       and formats a new EFI System Partition on the drive, downloads the netboot
       kernel and initial ramdisk to the partition, and installs the systemd-boot
       bootloader on the partition and registers it with NVRAM.
