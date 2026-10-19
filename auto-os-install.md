@@ -203,8 +203,8 @@ hardware and software being used for development are listed below.
         && mkfs.vfat <partition-name> \
         && mount --mkdir <partition-name> /mnt/efi \
         && curl --remote-name-all --output-dir /mnt/efi \
-             http://192.168.1.1:8000/linux \
-             http://192.168.1.1:8000/initrd.gz \
+          http://192.168.1.1:8000/linux \
+          http://192.168.1.1:8000/initrd.gz \
         && bootctl --esp-path=/mnt/efi install
       ```
       This wipes the internal drive of all filesystems and partition tables, creates
