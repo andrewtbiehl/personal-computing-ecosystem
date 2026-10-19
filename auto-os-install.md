@@ -275,7 +275,7 @@ hardware and software being used for development are listed below.
 
 ## Notes
 
-- ***SECURITY WARNING**: Both the root and new user passwords have been hard coded as
+- ***SECURITY WARNING**: Both the root and new user passwords have been hard-coded as
   'password'. This is a weak password choice. Moreover, it is obviously not a good
   practice to use the same password as both the root and new user password. Both
   practices should be avoided in any production setting.*
