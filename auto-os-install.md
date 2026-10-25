@@ -177,10 +177,11 @@ hardware and software being used for development are listed below.
       drive icons).
       - *All options are functionally identical; if there is more than one, choose the
         left-most option for consistency.*
-3. On the provisioning computer, open a new shell session, run the following command,
-   and subsequently enter the target computer's live OS root password, "password". This
-   will trigger the automatic OS installation (on the target computer).
+3. On the provisioning computer, open a new shell session and run the following command.
+   This will trigger the automatic OS installation (on the target computer).
    ```sh
+   SSH_ASKPASS_REQUIRE=force \
+   SSH_ASKPASS=$HOME/personal-computing-ecosystem/live-os-root-askpass.sh \
    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
      root@192.168.1.2 < ~/personal-computing-ecosystem/os-installation-setup.sh
    ```
