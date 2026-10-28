@@ -68,13 +68,13 @@ hardware and software being used for development are listed below.
    2. Extract the target OS disk image contents and make them writable via the following
       command.
       ```sh
-      mkdir ~/personal-computing-ecosystem/debian-iso \
+      mkdir ~/personal-computing-ecosystem/debian-repo \
           ~/personal-computing-ecosystem/temp \
         && sudo mount ~/personal-computing-ecosystem/debian.iso \
           ~/personal-computing-ecosystem/temp \
         && cp --recursive ~/personal-computing-ecosystem/temp/* \
-          ~/personal-computing-ecosystem/debian-iso/ \
-        && chmod --recursive u+rw ~/personal-computing-ecosystem/debian-iso \
+          ~/personal-computing-ecosystem/debian-repo/ \
+        && chmod --recursive u+rw ~/personal-computing-ecosystem/debian-repo \
         && sudo umount ~/personal-computing-ecosystem/temp \
         && rmdir ~/personal-computing-ecosystem/temp
       ```
@@ -86,18 +86,18 @@ hardware and software being used for development are listed below.
         | zgrep "^Filename:" \
         | awk '{print "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2}' \
         | wget \
-          --directory-prefix=$HOME/personal-computing-ecosystem/debian-iso/pool/main/netboot-udebs \
+          --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main/netboot-udebs \
           --input-file=-
       ```
    4. Update the disk image's repository metadata to register the new packages, via the
       following command.
       ```sh
-      (cd ~/personal-computing-ecosystem/debian-iso \
+      (cd ~/personal-computing-ecosystem/debian-repo \
           && apt-ftparchive packages pool/main/netboot-udebs \
           > dists/trixie/main/debian-installer/binary-amd64/Packages) \
         && gzip --no-name --keep --force \
-            ~/personal-computing-ecosystem/debian-iso/dists/trixie/main/debian-installer/binary-amd64/Packages \
-        && (cd ~/personal-computing-ecosystem/debian-iso/dists/trixie \
+            ~/personal-computing-ecosystem/debian-repo/dists/trixie/main/debian-installer/binary-amd64/Packages \
+        && (cd ~/personal-computing-ecosystem/debian-repo/dists/trixie \
           && apt-ftparchive \
             --config-file ~/personal-computing-ecosystem/release.conf \
             release . > Release)
@@ -111,12 +111,12 @@ hardware and software being used for development are listed below.
           --quick-generate-key "Local Debian Mirror" \
         && gpg --faked-system-time "20260708T000100" \
           --homedir ~/personal-computing-ecosystem/gnupg --batch --yes \
-          --output ~/personal-computing-ecosystem/debian-iso/dists/trixie/Release.gpg \
-          --detach-sign ~/personal-computing-ecosystem/debian-iso/dists/trixie/Release \
+          --output ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release.gpg \
+          --detach-sign ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release \
         && gpg --faked-system-time "20260708T000100" \
           --homedir ~/personal-computing-ecosystem/gnupg --batch --yes \
-          --output ~/personal-computing-ecosystem/debian-iso/dists/trixie/InRelease \
-          --clearsign ~/personal-computing-ecosystem/debian-iso/dists/trixie/Release
+          --output ~/personal-computing-ecosystem/debian-repo/dists/trixie/InRelease \
+          --clearsign ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release
       ```
       - *Faking the system time is done for reproducibility purposes; the specific time
         is chosen to be approximately a day after the chosen Debian snapshot time.*

@@ -51,7 +51,7 @@ d-i debian-installer/exit/poweroff boolean true
 # Use a local offline mirror for installation.
 d-i mirror/country string manual
 d-i mirror/http/hostname string 192.168.1.1:8000
-d-i mirror/http/directory string /debian-iso
+d-i mirror/http/directory string /debian-repo
 
 # Disable authentication requirements to enable installation from the offline mirror.
 # Note: The installer apparently still requires the existence of a syntactically valid
