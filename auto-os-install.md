@@ -36,19 +36,13 @@ hardware and software being used for development are listed below.
    - *This may or may not require "bootstrapping" the state of the provisioning computer
      via an earlier version of this procedure.*
 2. Clone this repository to the home directory on the provisioning computer.
-3. Download the target OS disk image to this repository on the provisioning computer via
-   the following command.
-   ```sh
-   wget --output-document=$HOME/personal-computing-ecosystem/debian.iso \
-     https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
-   ```
-4. Build the live OS disk image on the provisioning computer via the following command.
+3. Build the live OS disk image on the provisioning computer via the following command.
    ```sh
    nix build ~/personal-computing-ecosystem/auto-exec-os \
      --extra-experimental-features "nix-command flakes"
    ```
    - *The disk image will now be located at `~/result/iso/`.*
-5. Use the provisioning computer to write the live OS disk image onto the thumb drive.
+4. Use the provisioning computer to write the live OS disk image onto the thumb drive.
    1. Open the GNOME Disks application.
    2. Connect the thumb drive and select it inside GNOME Disks.
    3. Click "Drive Options" ("&#8942;" icon) and then click "Restore Disk Image...".
@@ -56,7 +50,7 @@ hardware and software being used for development are listed below.
       and click "Restore".
    5. Click "Power off this disk" ("&#9211;" icon).
    6. Remove the thumb drive.
-6. Set up a local software repository for offline "netboot" installation.
+5. Set up a local software repository for offline "netboot" installation.
    1. Download the target OS netboot installer kernel and initial ramdisk via the
       following command.
       ```sh
@@ -64,18 +58,7 @@ hardware and software being used for development are listed below.
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/linux \
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/initrd.gz
       ```
-   2. Extract a manifest of the target OS disk image packages via the following command.
-      ```sh
-      mkdir ~/personal-computing-ecosystem/temp \
-        && sudo mount ~/personal-computing-ecosystem/debian.iso \
-          ~/personal-computing-ecosystem/temp \
-        && zgrep "^Package:" \
-          ~/personal-computing-ecosystem/temp/dists/trixie/main/binary-amd64/Packages.gz \
-        | awk '{print $2}' > ~/personal-computing-ecosystem/packages.txt \
-        && sudo umount ~/personal-computing-ecosystem/temp \
-        && rmdir ~/personal-computing-ecosystem/temp
-      ```
-   3. Create some directories for the repository via the following command.
+   2. Create some directories for the repository via the following command.
       ```sh
       (cd ~/personal-computing-ecosystem \
         && mkdir --parents ./debian-repo/pool/main \
@@ -83,7 +66,7 @@ hardware and software being used for development are listed below.
           ./debian-repo/dists/trixie/main/binary-amd64 \
           ./debian-repo/dists/trixie/main/debian-installer/binary-amd64)
       ```
-   4. Ensure that no driver files are missing from the repository by downloading all
+   3. Ensure that no driver files are missing from the repository by downloading all
       installer micro packages, via the following command.
       ```sh
       wget --output-document=- \
@@ -94,7 +77,7 @@ hardware and software being used for development are listed below.
           --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/netboot-udebs \
           --input-file=-
       ```
-   5. Download all packages from the manifest to the repository via the following
+   4. Download all packages from the manifest to the repository via the following
       command.
       ```sh
       wget --output-document=- \
@@ -110,7 +93,7 @@ hardware and software being used for development are listed below.
         | xargs --max-chars=1000000 wget \
           --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main
       ```
-   6. Update the repository metadata to register the new packages, via the following
+   5. Update the repository metadata to register the new packages, via the following
       command.
       ```sh
       (cd ~/personal-computing-ecosystem/debian-repo \
@@ -130,7 +113,7 @@ hardware and software being used for development are listed below.
             --config-file ~/personal-computing-ecosystem/release.conf \
             release . > Release)
       ```
-   7. Generate a dummy signing key and sign the repository metadata, via the following
+   6. Generate a dummy signing key and sign the repository metadata, via the following
       command.
       ```sh
       mkdir --mode=700 ~/personal-computing-ecosystem/gnupg \
@@ -149,9 +132,8 @@ hardware and software being used for development are listed below.
       - *Faking the system time is done for reproducibility purposes; the specific time
         is chosen to be approximately a day after the chosen Debian snapshot time.*
    - *The choice to use the Debian snapshot time of `20260707T021943Z` was vaguely
-     influenced by the fact that the current target OS disk image version (i.e. version
-     13.5.0) used in this documentation was the latest such version until a few days
-     later on 2026-07-11, but is also a rather arbitrary choice.*
+     influenced by prior dependence on a particular version (i.e. version 13.5.0) of the
+     disk image of the target OS, but is also a rather arbitrary choice.*
 
 ### Installation steps
 
