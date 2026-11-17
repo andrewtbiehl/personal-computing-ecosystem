@@ -42,7 +42,6 @@ hardware and software being used for development are listed below.
    wget --output-document=$HOME/personal-computing-ecosystem/debian.iso \
      https://cdimage.debian.org/cdimage/archive/13.5.0/amd64/iso-dvd/debian-13.5.0-amd64-DVD-1.iso
    ```
-   - *Debian version 13.5.0 is pinned for reproducibility purposes.*
 4. Build the live OS disk image on the provisioning computer via the following command.
    ```sh
    nix build ~/personal-computing-ecosystem/auto-exec-os \
@@ -57,7 +56,7 @@ hardware and software being used for development are listed below.
       and click "Restore".
    5. Click "Power off this disk" ("&#9211;" icon).
    6. Remove the thumb drive.
-6. Set up offline "netboot" installation of the target OS disk image.
+6. Set up a local software repository for offline "netboot" installation.
    1. Download the target OS netboot installer kernel and initial ramdisk via the
       following command.
       ```sh
@@ -65,45 +64,74 @@ hardware and software being used for development are listed below.
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/linux \
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/initrd.gz
       ```
-   2. Extract the target OS disk image contents and make them writable via the following
-      command.
+   2. Extract a manifest of the target OS disk image packages via the following command.
       ```sh
-      mkdir ~/personal-computing-ecosystem/debian-repo \
-          ~/personal-computing-ecosystem/temp \
+      mkdir ~/personal-computing-ecosystem/temp \
         && sudo mount ~/personal-computing-ecosystem/debian.iso \
           ~/personal-computing-ecosystem/temp \
-        && cp --recursive ~/personal-computing-ecosystem/temp/* \
-          ~/personal-computing-ecosystem/debian-repo/ \
-        && chmod --recursive u+rw ~/personal-computing-ecosystem/debian-repo \
+        && zgrep "^Package:" \
+          ~/personal-computing-ecosystem/temp/dists/trixie/main/binary-amd64/Packages.gz \
+        | awk '{print $2}' > ~/personal-computing-ecosystem/packages.txt \
         && sudo umount ~/personal-computing-ecosystem/temp \
         && rmdir ~/personal-computing-ecosystem/temp
       ```
-   3. Ensure that no driver files are missing from the disk image contents by
-      downloading all installer micro packages, via the following command.
+   3. Create some directories for the repository via the following command.
+      ```sh
+      (cd ~/personal-computing-ecosystem \
+        && mkdir --parents ./debian-repo/pool/main \
+          ./debian-repo/pool/netboot-udebs \
+          ./debian-repo/dists/trixie/main/binary-amd64 \
+          ./debian-repo/dists/trixie/main/debian-installer/binary-amd64)
+      ```
+   4. Ensure that no driver files are missing from the repository by downloading all
+      installer micro packages, via the following command.
       ```sh
       wget --output-document=- \
           https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
         | zgrep "^Filename:" \
         | awk '{print "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2}' \
         | wget \
-          --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main/netboot-udebs \
+          --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/netboot-udebs \
           --input-file=-
       ```
-   4. Update the disk image's repository metadata to register the new packages, via the
-      following command.
+   5. Download all packages from the manifest to the repository via the following
+      command.
+      ```sh
+      wget --output-document=- \
+          https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/binary-amd64/Packages.gz \
+        | zgrep --extended-regexp "^(Package|Filename):" \
+        | awk '
+          /^Package:/ { pkg=$2 }
+          /^Filename:/ { url[pkg] = "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2 }
+          END {
+            while ((getline < "'$HOME'/personal-computing-ecosystem/packages.txt") > 0)
+              if ($1 in url) print url[$1]
+          }' \
+        | xargs --max-chars=1000000 wget \
+          --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main
+      ```
+   6. Update the repository metadata to register the new packages, via the following
+      command.
       ```sh
       (cd ~/personal-computing-ecosystem/debian-repo \
-          && apt-ftparchive packages pool/main/netboot-udebs \
+          && apt-ftparchive packages pool/main \
+          > dists/trixie/main/binary-amd64/Packages \
+          && apt-ftparchive packages pool/netboot-udebs \
           > dists/trixie/main/debian-installer/binary-amd64/Packages) \
         && gzip --no-name --keep --force \
+            ~/personal-computing-ecosystem/debian-repo/dists/trixie/main/binary-amd64/Packages \
             ~/personal-computing-ecosystem/debian-repo/dists/trixie/main/debian-installer/binary-amd64/Packages \
+        && printf "Component: main\nArchitecture: amd64\n" \
+          > ~/personal-computing-ecosystem/debian-repo/dists/trixie/main/binary-amd64/Release \
+        && printf "Component: main\nArchitecture: amd64\n" \
+          > ~/personal-computing-ecosystem/debian-repo/dists/trixie/main/debian-installer/binary-amd64/Release \
         && (cd ~/personal-computing-ecosystem/debian-repo/dists/trixie \
           && apt-ftparchive \
             --config-file ~/personal-computing-ecosystem/release.conf \
             release . > Release)
       ```
-   5. Generate a dummy signing key and sign the modified disk image repository metadata,
-      via the following command.
+   7. Generate a dummy signing key and sign the repository metadata, via the following
+      command.
       ```sh
       mkdir --mode=700 ~/personal-computing-ecosystem/gnupg \
         && gpg --faked-system-time "20260708T000000" \
