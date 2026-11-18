@@ -187,13 +187,13 @@ hardware and software being used for development are listed below.
    ```
    - *Once the installation has completed, the target computer will power off.*
 4. Perform the following steps on the target computer.
-   1. Start up the computer and log in.
+   1. Start up the computer and log in to the initial user.
    2. Grant administrative privileges to the initial user.
       1. Add the initial user to the `sudo` group via the following command.
          ```sh
          su --login root --command="usermod --append --groups sudo andrew"
          ```
-      2. Log out and log back in.
+      2. Log out and log back in (to the initial user).
    3. Run the following command to identify the boot number of the "Linux Boot Manager"
       boot entry.
       ```sh
