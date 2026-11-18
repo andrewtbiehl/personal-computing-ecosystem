@@ -182,8 +182,8 @@ hardware and software being used for development are listed below.
    ```sh
    SSH_ASKPASS_REQUIRE=force \
    SSH_ASKPASS=$HOME/personal-computing-ecosystem/live-os-root-askpass.sh \
-   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-     root@192.168.1.2 < ~/personal-computing-ecosystem/os-installation-setup.sh
+   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
+     < ~/personal-computing-ecosystem/os-installation-setup.sh
    ```
    - *Once the installation has completed, the target computer will power off.*
 4. Perform the following steps on the target computer.
