@@ -62,26 +62,23 @@ hardware and software being used for development are listed below.
       ```sh
       (cd ~/personal-computing-ecosystem \
         && mkdir --parents ./debian-repo/pool/main \
-          ./debian-repo/pool/netboot-udebs \
           ./debian-repo/dists/trixie/main/binary-amd64 \
           ./debian-repo/dists/trixie/main/debian-installer/binary-amd64)
       ```
-   3. Ensure that no driver files are missing from the repository by downloading all
-      installer micro packages, via the following command.
+   3. Ensure that no driver files are missing from the repository by adding all
+      installer micro packages to the manifest of packages, via the following command.
       ```sh
       wget --output-document=- \
           https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
-        | zgrep "^Filename:" \
-        | awk '{print "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2}' \
-        | wget \
-          --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/netboot-udebs \
-          --input-file=-
+        | zgrep "^Package:" \
+        | awk '{print $2}' >> ~/personal-computing-ecosystem/packages.txt
       ```
    4. Download all packages from the manifest to the repository via the following
       command.
       ```sh
       wget --output-document=- \
           https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/binary-amd64/Packages.gz \
+          https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
         | zgrep --extended-regexp "^(Package|Filename):" \
         | awk '
           /^Package:/ { pkg=$2 }
@@ -99,7 +96,7 @@ hardware and software being used for development are listed below.
       (cd ~/personal-computing-ecosystem/debian-repo \
           && apt-ftparchive packages pool/main \
           > dists/trixie/main/binary-amd64/Packages \
-          && apt-ftparchive packages pool/netboot-udebs \
+          && apt-ftparchive packages pool/main \
           > dists/trixie/main/debian-installer/binary-amd64/Packages) \
         && gzip --no-name --keep --force \
             ~/personal-computing-ecosystem/debian-repo/dists/trixie/main/binary-amd64/Packages \
