@@ -46,9 +46,6 @@ d-i pkgsel/include string curl git linux-image-amd64 linux-headers-amd64 \
 # Bypass final successful installation acknowledgment prompt.
 d-i finish-install/reboot_in_progress note
 
-# Power off (and do not restart) the computer once installation has completed.
-d-i debian-installer/exit/poweroff boolean true
-
 # Use a local offline mirror for installation.
 d-i mirror/country string manual
 d-i mirror/http/hostname string 192.168.1.1:8000

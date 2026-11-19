@@ -203,9 +203,10 @@ hardware and software being used for development are listed below.
    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
      < ~/personal-computing-ecosystem/os-installation-setup.sh
    ```
-   - *Once the installation has completed, the target computer will power off.*
-4. Perform the following steps on the target computer.
-   1. Start up the computer and log in to the initial user.
+   - *Once the installation has completed, the target computer will restart.*
+4. Once the installation has completed and target computer has fully restarted, perform
+   the following steps on the target computer.
+   1. Log in to the initial user.
    2. Grant administrative privileges to the initial user.
       1. Add the initial user to the `sudo` group via the following command.
          ```sh
