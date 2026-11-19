@@ -41,7 +41,7 @@ d-i partman/confirm boolean true
 
 # Install additional software.
 d-i pkgsel/include string curl git linux-image-amd64 linux-headers-amd64 \
-    broadcom-sta-dkms
+    broadcom-sta-dkms openssh-server
 
 # Bypass final successful installation acknowledgment prompt.
 d-i finish-install/reboot_in_progress note
@@ -59,3 +59,7 @@ d-i debian-installer/allow_unauthenticated boolean true
 # Disable supplementary APT repositories (e.g. security, updates).
 # This prevents missing repository errors while using the offline mirror.
 d-i apt-setup/services-select multiselect
+
+# Enable password-based remote root logins.
+d-i preseed/late_command string in-target sed -i \
+    's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config

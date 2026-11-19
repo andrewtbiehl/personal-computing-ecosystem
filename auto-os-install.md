@@ -171,18 +171,11 @@ hardware and software being used for development are listed below.
            --dhcp-leasefile=/tmp/dnsmasq.leases \
            --no-daemon
          ```
-      - *After completing these steps, remember to shut down the DHCP server and then
-        reset the adapter interface configuration via the following command.*
-        ```sh
-        sudo rm /tmp/dnsmasq.leases \
-          && sudo ip address delete 192.168.1.1/24 dev <interface-name>
-        ```
    4. Open a new shell session and start up an HTTP server that serves the contents of
       this repository via the following command.
       ```sh
       python3 -m http.server --directory ~/personal-computing-ecosystem
       ```
-      - *Remember to shut down the HTTP server after completing these steps.*
 2. Perform the following steps on the (initially powered off) target computer.
    1. Follow [Apple's official directions](https://support.apple.com/en-us/102539) to
       reset NVRAM and then power off the computer again.
@@ -199,43 +192,63 @@ hardware and software being used for development are listed below.
    This will trigger the automatic OS installation (on the target computer).
    ```sh
    SSH_ASKPASS_REQUIRE=force \
-   SSH_ASKPASS=$HOME/personal-computing-ecosystem/live-os-root-askpass.sh \
+   SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
      < ~/personal-computing-ecosystem/os-installation-setup.sh
    ```
    - *Once the installation has completed, the target computer will restart.*
 4. Once the installation has completed and target computer has fully restarted, perform
-   the following steps on the target computer.
-   1. Log in to the initial user.
-   2. Grant administrative privileges to the initial user.
-      1. Add the initial user to the `sudo` group via the following command.
-         ```sh
-         su --login root --command="usermod --append --groups sudo andrew"
-         ```
-      2. Log out and log back in (to the initial user).
-   3. Run the following command to identify the boot number of the "Linux Boot Manager"
+   the following steps on the target computer, remotely accessed via the provisioning
+   computer, via the following command.
+   ```sh
+   SSH_ASKPASS_REQUIRE=force \
+   SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
+   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2
+   ```
+   1. Add the initial user to the `sudo` group via the following command.
+      ```sh
+      usermod --append --groups sudo andrew
+      ```
+   2. Run the following command to identify the boot number of the "Linux Boot Manager"
       boot entry.
       ```sh
       efibootmgr
       ```
       We hereafter refer to this boot number via the placeholder `<boot-number>`.
-   4. Remove the "Linux Boot Manager" boot entry via the following command.
+   3. Remove the "Linux Boot Manager" boot entry via the following command.
       ```sh
-      sudo efibootmgr --bootnum <boot-number> --delete-bootnum
+      efibootmgr --bootnum <boot-number> --delete-bootnum
       ```
-   5. Deactivate the temporary software repository configuration used to install the
+   4. Deactivate the temporary software repository configuration used to install the
       target OS, via the following command.
       ```sh
-      sudo rm /etc/apt/sources.list
+      rm /etc/apt/sources.list
       ```
-   6. Set up software repositories for the APT package manager via the following
+   5. Set up software repositories for the APT package manager via the following
       command.
       ```sh
-      sudo cp /usr/share/doc/apt/examples/debian.sources \
+      cp /usr/share/doc/apt/examples/debian.sources \
         /etc/apt/sources.list.d/debian.sources
       ```
-   7. Connect the computer to the internet via a wireless network.
-   8. Install the Nix package manager via the command
+   6. Disable password-based remote access with the following command.
+      ```sh
+      sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
+        /etc/ssh/sshd_config
+      ```
+   7. Power off the target computer via the following command.
+      ```sh
+      poweroff
+      ```
+5. On the provisioning computer, shut down both the DHCP server and the HTTP server and
+   then reset the adapter interface configuration via the following command.
+   ```sh
+   sudo rm /tmp/dnsmasq.leases \
+     && sudo ip address delete 192.168.1.1/24 dev <interface-name>
+   ```
+6. Perform the following steps on the target computer.
+   1. Start up the computer and log in to the initial user.
+   2. Connect the computer to the internet via a wireless network.
+   3. Install the Nix package manager via the command
       ```sh
       curl --proto '=https' --tlsv1.2 \
         https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
