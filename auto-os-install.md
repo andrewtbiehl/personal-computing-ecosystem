@@ -206,42 +206,27 @@ hardware and software being used for development are listed below.
    SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2
    ```
-   1. Add the initial user to the `sudo` group via the following command.
+   1. Run the following command.
       ```sh
-      usermod --append --groups sudo andrew
-      ```
-   2. Remove the "Linux Boot Manager" boot entry via the following command.
-      ```sh
-      efibootmgr --delete-bootnum \
-        --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8)
-      ```
-   3. Deactivate the temporary software repository configuration used to install the
-      target OS, via the following command.
-      ```sh
-      rm /etc/apt/sources.list
-      ```
-   4. Set up software repositories for the APT package manager via the following
-      command.
-      ```sh
-      cp /usr/share/doc/apt/examples/debian.sources \
-        /etc/apt/sources.list.d/debian.sources
-      ```
-   5. Disable password-based remote access with the following command.
-      ```sh
-      sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
-        /etc/ssh/sshd_config
-      ```
-   6. Download and install Nix via the following command.
-      ```sh
-      curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
-        | tar --extract --xz --directory /tmp \
+      usermod --append --groups sudo andrew \
+        && efibootmgr --delete-bootnum \
+          --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8) \
+        && rm /etc/apt/sources.list \
+        && cp /usr/share/doc/apt/examples/debian.sources \
+          /etc/apt/sources.list.d/debian.sources \
+        && sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
+          /etc/ssh/sshd_config \
+        && curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
+          | tar --extract --xz --directory /tmp \
         && /tmp/nix-2.35.1-x86_64-linux/install --daemon --yes \
-        && rm --recursive --force /tmp/nix-2.35.1-x86_64-linux
+        && rm --recursive --force /tmp/nix-2.35.1-x86_64-linux \
+        && poweroff
       ```
-   7. Power off the target computer via the following command.
-      ```sh
-      poweroff
-      ```
+      This adds the initial user to the `sudo` group, removes the "Linux Boot Manager"
+      boot entry, deactivates the temporary software repository configuration used to
+      install the target OS, sets up software repositories for the APT package manager,
+      disables password-based remote access, downloads and installs Nix, and finally
+      powers off the target computer.
 5. On the provisioning computer, shut down both the DHCP server and the HTTP server and
    then reset the adapter interface configuration via the following command.
    ```sh
