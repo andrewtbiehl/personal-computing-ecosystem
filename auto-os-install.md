@@ -198,35 +198,17 @@ hardware and software being used for development are listed below.
      < ~/personal-computing-ecosystem/os-installation-setup.sh
    ```
    - *Once the installation has completed, the target computer will restart.*
-4. Once the installation has completed and target computer has fully restarted, perform
-   the following steps on the target computer, remotely accessed via the provisioning
-   computer, via the following command.
+4. Once the installation has completed and target computer has fully restarted, on the
+   provisioning computer, open a new shell session and run the following command.
+   This will run all post-installation setup steps.
    ```sh
    SSH_ASKPASS_REQUIRE=force \
    SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
-   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2
+   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
+     < ~/personal-computing-ecosystem/os-post-installation-setup.sh
    ```
-   1. Run the following command.
-      ```sh
-      usermod --append --groups sudo andrew \
-        && efibootmgr --delete-bootnum \
-          --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8) \
-        && rm /etc/apt/sources.list \
-        && cp /usr/share/doc/apt/examples/debian.sources \
-          /etc/apt/sources.list.d/debian.sources \
-        && sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
-          /etc/ssh/sshd_config \
-        && curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
-          | tar --extract --xz --directory /tmp \
-        && /tmp/nix-2.35.1-x86_64-linux/install --daemon --yes \
-        && rm --recursive --force /tmp/nix-2.35.1-x86_64-linux \
-        && poweroff
-      ```
-      This adds the initial user to the `sudo` group, removes the "Linux Boot Manager"
-      boot entry, deactivates the temporary software repository configuration used to
-      install the target OS, sets up software repositories for the APT package manager,
-      disables password-based remote access, downloads and installs Nix, and finally
-      powers off the target computer.
+   - *Once the post-installation setup has completed, the target computer will shut
+     down.*
 5. On the provisioning computer, shut down both the DHCP server and the HTTP server and
    then reset the adapter interface configuration via the following command.
    ```sh
