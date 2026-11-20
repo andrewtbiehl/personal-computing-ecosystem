@@ -210,40 +210,35 @@ hardware and software being used for development are listed below.
       ```sh
       usermod --append --groups sudo andrew
       ```
-   2. Run the following command to identify the boot number of the "Linux Boot Manager"
-      boot entry.
+   2. Remove the "Linux Boot Manager" boot entry via the following command.
       ```sh
-      efibootmgr
+      efibootmgr --delete-bootnum \
+        --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8)
       ```
-      We hereafter refer to this boot number via the placeholder `<boot-number>`.
-   3. Remove the "Linux Boot Manager" boot entry via the following command.
-      ```sh
-      efibootmgr --bootnum <boot-number> --delete-bootnum
-      ```
-   4. Deactivate the temporary software repository configuration used to install the
+   3. Deactivate the temporary software repository configuration used to install the
       target OS, via the following command.
       ```sh
       rm /etc/apt/sources.list
       ```
-   5. Set up software repositories for the APT package manager via the following
+   4. Set up software repositories for the APT package manager via the following
       command.
       ```sh
       cp /usr/share/doc/apt/examples/debian.sources \
         /etc/apt/sources.list.d/debian.sources
       ```
-   6. Disable password-based remote access with the following command.
+   5. Disable password-based remote access with the following command.
       ```sh
       sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
         /etc/ssh/sshd_config
       ```
-   7. Download and install Nix via the following command.
+   6. Download and install Nix via the following command.
       ```sh
       curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
         | tar --extract --xz --directory /tmp \
         && /tmp/nix-2.35.1-x86_64-linux/install --daemon --yes \
         && rm --recursive --force /tmp/nix-2.35.1-x86_64-linux
       ```
-   8. Power off the target computer via the following command.
+   7. Power off the target computer via the following command.
       ```sh
       poweroff
       ```
