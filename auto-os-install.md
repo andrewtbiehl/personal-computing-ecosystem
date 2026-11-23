@@ -72,6 +72,7 @@ hardware and software being used for development are listed below.
       wget --output-document=- \
           https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/binary-amd64/Packages.gz \
           https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
+          https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/non-free/binary-amd64/Packages.gz \
         | zgrep --extended-regexp "^(Package|Filename):" \
         | awk '
           /^Package:/ { pkg=$2 }
@@ -221,17 +222,8 @@ hardware and software being used for development are listed below.
       sudo cp /usr/share/doc/apt/examples/debian.sources \
         /etc/apt/sources.list.d/debian.sources
       ```
-   7. Connect the computer to the router via the Ethernet cable and compatible adapter.
-   8. Set up wireless networking capability.
-      1. Install all necessary packages via the following command.
-         ```sh
-         sudo apt-get update \
-           && sudo apt-get install --assume-yes \
-             linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
-         ```
-      2. Log out, restart the computer, and log in.
-      - *The Ethernet connection can now be replaced with a wireless connection.*
-   9. Install the Nix package manager via the command
+   7. Connect the computer to the internet via a wireless network.
+   8. Install the Nix package manager via the command
       ```sh
       curl --proto '=https' --tlsv1.2 \
         https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon

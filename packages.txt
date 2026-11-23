@@ -4833,3 +4833,5 @@ xserver-xorg-input-libinput-udeb
 xserver-xorg-video-fbdev-udeb
 liblzma5-udeb
 zlib1g-udeb
+dkms
+broadcom-sta-dkms

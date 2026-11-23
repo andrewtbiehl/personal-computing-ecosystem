@@ -40,7 +40,8 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 
 # Install additional software.
-d-i pkgsel/include string curl git
+d-i pkgsel/include string curl git linux-image-amd64 linux-headers-amd64 \
+    broadcom-sta-dkms
 
 # Bypass final successful installation acknowledgment prompt.
 d-i finish-install/reboot_in_progress note
