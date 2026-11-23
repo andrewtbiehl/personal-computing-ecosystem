@@ -27,5 +27,5 @@ initrd /initrd.gz
 options auto=true priority=critical --- intel_iommu=off
 EOF
 
-# Restart the computer.
-reboot
+# Wait one minute and then restart the computer.
+shutdown -r
