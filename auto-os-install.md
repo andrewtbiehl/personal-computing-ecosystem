@@ -62,6 +62,7 @@ hardware and software being used for development are listed below.
       ```sh
       (cd ~/personal-computing-ecosystem \
         && mkdir --parents ./debian-repo/pool/main \
+          ./debian-repo/pool/netboot-udebs \
           ./debian-repo/dists/trixie/main/binary-amd64 \
           ./debian-repo/dists/trixie/main/debian-installer/binary-amd64)
       ```
@@ -90,13 +91,19 @@ hardware and software being used for development are listed below.
         | xargs --max-chars=1000000 wget \
           --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main
       ```
-   5. Update the repository metadata to register the new packages, via the following
+   5. Move all micro packages to a separate directory in the repository, via the
+      following command.
+      ```sh
+      mv ~/personal-computing-ecosystem/debian-repo/pool/main/*.udeb \
+        ~/personal-computing-ecosystem/debian-repo/pool/netboot-udebs/
+      ```
+   6. Update the repository metadata to register the new packages, via the following
       command.
       ```sh
       (cd ~/personal-computing-ecosystem/debian-repo \
           && apt-ftparchive packages pool/main \
           > dists/trixie/main/binary-amd64/Packages \
-          && apt-ftparchive packages pool/main \
+          && apt-ftparchive packages pool/netboot-udebs \
           > dists/trixie/main/debian-installer/binary-amd64/Packages) \
         && gzip --no-name --keep --force \
             ~/personal-computing-ecosystem/debian-repo/dists/trixie/main/binary-amd64/Packages \
@@ -110,7 +117,7 @@ hardware and software being used for development are listed below.
             --config-file ~/personal-computing-ecosystem/release.conf \
             release . > Release)
       ```
-   6. Generate a dummy signing key and sign the repository metadata, via the following
+   7. Generate a dummy signing key and sign the repository metadata, via the following
       command.
       ```sh
       mkdir --mode=700 ~/personal-computing-ecosystem/gnupg \
