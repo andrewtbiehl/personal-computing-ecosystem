@@ -66,15 +66,7 @@ hardware and software being used for development are listed below.
           ./debian-repo/dists/trixie/main/binary-amd64 \
           ./debian-repo/dists/trixie/main/debian-installer/binary-amd64)
       ```
-   3. Ensure that no driver files are missing from the repository by adding all
-      installer micro packages to the manifest of packages, via the following command.
-      ```sh
-      wget --output-document=- \
-          https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
-        | zgrep "^Package:" \
-        | awk '{print $2}' >> ~/personal-computing-ecosystem/packages.txt
-      ```
-   4. Download all packages from the manifest to the repository via the following
+   3. Download all packages from the manifest to the repository via the following
       command.
       ```sh
       wget --output-document=- \
@@ -91,13 +83,13 @@ hardware and software being used for development are listed below.
         | xargs --max-chars=1000000 wget \
           --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main
       ```
-   5. Move all micro packages to a separate directory in the repository, via the
+   4. Move all micro packages to a separate directory in the repository, via the
       following command.
       ```sh
       mv ~/personal-computing-ecosystem/debian-repo/pool/main/*.udeb \
         ~/personal-computing-ecosystem/debian-repo/pool/netboot-udebs/
       ```
-   6. Update the repository metadata to register the new packages, via the following
+   5. Update the repository metadata to register the new packages, via the following
       command.
       ```sh
       (cd ~/personal-computing-ecosystem/debian-repo \
@@ -117,7 +109,7 @@ hardware and software being used for development are listed below.
             --config-file ~/personal-computing-ecosystem/release.conf \
             release . > Release)
       ```
-   7. Generate a dummy signing key and sign the repository metadata, via the following
+   6. Generate a dummy signing key and sign the repository metadata, via the following
       command.
       ```sh
       mkdir --mode=700 ~/personal-computing-ecosystem/gnupg \
