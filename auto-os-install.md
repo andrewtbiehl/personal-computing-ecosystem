@@ -66,24 +66,35 @@ hardware and software being used for development are listed below.
           ./debian-repo/dists/trixie/main/binary-amd64 \
           ./debian-repo/dists/trixie/main/debian-installer/binary-amd64)
       ```
-   3. Download all packages from the manifest to the repository via the following
-      command.
-      ```sh
-      wget --output-document=- \
-          https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/binary-amd64/Packages.gz \
-          https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
-          https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/non-free/binary-amd64/Packages.gz \
-        | zgrep --extended-regexp "^(Package|Filename):" \
-        | awk '
-          /^Package:/ { pkg=$2 }
-          /^Filename:/ { url[pkg] = "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2 }
-          END {
-            while ((getline < "'$HOME'/personal-computing-ecosystem/packages.txt") > 0)
-              if ($1 in url) print url[$1]
-          }' \
-        | xargs --max-chars=1000000 wget \
-          --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main
-      ```
+   3. Download all packages from the manifest to the repository by repeatedly running
+      the following pair of commands, as necessary.
+      - Compare the expected and actual count of packages downloaded so far via the
+        following command.
+        ```sh
+        echo "Expected downloads count: $(wc --lines \
+            < ~/personal-computing-ecosystem/packages.txt)" \
+          && echo "Actual downloads count: $(find \
+              ~/personal-computing-ecosystem/debian-repo/pool/main/ -maxdepth 1 \
+              \( -name "*.deb" -o -name "*.udeb" \) -printf '.' \
+            | wc --bytes)"
+        ```
+      - Idempotently attempt to download all packages via the following command.
+        ```sh
+        wget --output-document=- \
+            https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/binary-amd64/Packages.gz \
+            https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
+            https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/non-free/binary-amd64/Packages.gz \
+          | zgrep --extended-regexp "^(Package|Filename):" \
+          | awk '
+            /^Package:/ { pkg=$2 }
+            /^Filename:/ { url[pkg] = "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2 }
+            END {
+              while ((getline < "'$HOME'/personal-computing-ecosystem/packages.txt") > 0)
+                if ($1 in url) print url[$1]
+            }' \
+          | xargs --max-chars=1000000 wget --no-clobber \
+            --directory-prefix=$HOME/personal-computing-ecosystem/debian-repo/pool/main
+        ```
    4. Move all micro packages to a separate directory in the repository, via the
       following command.
       ```sh
