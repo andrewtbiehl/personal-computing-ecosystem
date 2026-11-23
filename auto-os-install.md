@@ -51,12 +51,13 @@ hardware and software being used for development are listed below.
    5. Click "Power off this disk" ("&#9211;" icon).
    6. Remove the thumb drive.
 5. Set up a local software repository for offline "netboot" installation.
-   1. Download the target OS netboot installer kernel and initial ramdisk via the
-      following command.
+   1. Download the target OS netboot installer kernel and initial ramdisk, as well as
+      the Nix compressed archive, via the following command.
       ```sh
       wget --directory-prefix=$HOME/personal-computing-ecosystem/ \
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/linux \
-        https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/initrd.gz
+        https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/initrd.gz \
+        https://releases.nixos.org/nix/nix-2.35.1/nix-2.35.1-x86_64-linux.tar.xz
       ```
    2. Create some directories for the repository via the following command.
       ```sh
@@ -235,7 +236,14 @@ hardware and software being used for development are listed below.
       sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
         /etc/ssh/sshd_config
       ```
-   7. Power off the target computer via the following command.
+   7. Download and install Nix via the following command.
+      ```sh
+      curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
+        | tar --extract --xz --directory /tmp \
+        && /tmp/nix-2.35.1-x86_64-linux/install --daemon --yes \
+        && rm --recursive --force /tmp/nix-2.35.1-x86_64-linux
+      ```
+   8. Power off the target computer via the following command.
       ```sh
       poweroff
       ```
@@ -248,15 +256,6 @@ hardware and software being used for development are listed below.
 6. Perform the following steps on the target computer.
    1. Start up the computer and log in to the initial user.
    2. Connect the computer to the internet via a wireless network.
-   3. Install the Nix package manager via the command
-      ```sh
-      curl --proto '=https' --tlsv1.2 \
-        https://releases.nixos.org/nix/nix-2.35.1/install | sh -s -- --daemon
-      ```
-      and subsequently typing in your password as prompted.
-      - *This command is essentially
-        [the official Linux multi-user installation command](https://nixos.org/download/#nix-install-linux),
-        pinned to Nix version 2.35.1 for reproducibility purposes.*
 
 ## Notes
 
