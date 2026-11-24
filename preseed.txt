@@ -18,11 +18,8 @@ d-i preseed/early_command string date -s "2026-08-13 12:00:00"
 d-i passwd/root-password password password
 d-i passwd/root-password-again password password
 
-# Create the initial user account 'andrew' and set the password to 'password'.
-d-i passwd/user-fullname string Andrew
-d-i passwd/username string andrew
-d-i passwd/user-password password password
-d-i passwd/user-password-again password password
+# Decline creation of a non-root user account.
+d-i passwd/make-user boolean false
 
 # Select the internal disk for OS installation.
 # Note: This script is probably not robust to all installation contexts; use with care.

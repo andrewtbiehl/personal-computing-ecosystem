@@ -2,6 +2,10 @@
 
 set -e
 
+# Create the initial user account 'andrew' and set the password to 'password'.
+adduser --disabled-password --comment "Andrew" andrew
+echo "andrew:password" | chpasswd
+
 # Add the initial user to the `sudo` group.
 usermod --append --groups sudo andrew
 
