@@ -169,7 +169,10 @@ hardware and software being used for development are listed below.
            --interface=<interface-name> \
            --dhcp-boot=http://192.168.1.1:8000/preseed.txt \
            --dhcp-range=192.168.1.2,192.168.1.2 \
+           --dhcp-option=6,192.168.1.1 \
            --dhcp-leasefile=/tmp/dnsmasq.leases \
+           --no-hosts \
+           --port=0 \
            --no-daemon
          ```
    4. Open a new shell session and start up an HTTP server that serves the contents of
@@ -198,14 +201,19 @@ hardware and software being used for development are listed below.
      < ~/personal-computing-ecosystem/os-installation-setup.sh
    ```
    - *Once the installation has completed, the target computer will restart.*
-4. Once the installation has completed and target computer has fully restarted, on the
-   provisioning computer, open a new shell session and run the following command.
-   This will run all post-installation setup steps.
+4. On the provisioning computer, open a new shell session and run the following command.
+   This will wait until the target computer restarts and then run all post-installation
+   setup steps.
    ```sh
-   SSH_ASKPASS_REQUIRE=force \
-   SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
-   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
-     < ~/personal-computing-ecosystem/os-post-installation-setup.sh
+   until grep --quiet "debian" /tmp/dnsmasq.leases 2>/dev/null; do sleep 5; done \
+     && until SSH_ASKPASS_REQUIRE=force \
+       SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
+       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+         -o ConnectTimeout=5 root@192.168.1.2 true 2>/dev/null; do sleep 5; done \
+     && SSH_ASKPASS_REQUIRE=force \
+       SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
+       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+       root@192.168.1.2 < ~/personal-computing-ecosystem/os-post-installation-setup.sh
    ```
    - *Once the post-installation setup has completed, the target computer will shut
      down.*
