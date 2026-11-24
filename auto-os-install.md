@@ -136,7 +136,8 @@ hardware and software being used for development are listed below.
         && gpg --faked-system-time "20260708T000100" \
           --homedir ~/personal-computing-ecosystem/gnupg --batch --yes \
           --output ~/personal-computing-ecosystem/debian-repo/dists/trixie/InRelease \
-          --clearsign ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release
+          --clearsign ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release \
+        && gpgconf --homedir ~/personal-computing-ecosystem/gnupg --kill gpg-agent
       ```
       - *Faking the system time is done for reproducibility purposes; the specific time
         is chosen to be approximately a day after the chosen Debian snapshot time.*
