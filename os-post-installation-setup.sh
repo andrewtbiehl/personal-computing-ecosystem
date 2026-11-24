@@ -2,21 +2,30 @@
 
 set -e
 
-# Add the initial user to the `sudo` group, remove the "Linux Boot Manager"
-# boot entry, deactivate the temporary software repository configuration used
-# to install the target OS, set up software repositories for the APT package
-# manager, disable password-based remote access, download and install Nix, and
-# finally power off the target computer.
+# Add the initial user to the `sudo` group.
 usermod --append --groups sudo andrew
+
+# Remove the "Linux Boot Manager" boot entry.
 efibootmgr --delete-bootnum \
   --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8)
+
+# Deactivate the temporary software repository configuration used to install
+# the target OS.
 rm /etc/apt/sources.list
+
+# Set up software repositories for the APT package manager.
 cp /usr/share/doc/apt/examples/debian.sources \
   /etc/apt/sources.list.d/debian.sources
+
+# Disable password-based remote access.
 sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
   /etc/ssh/sshd_config
+
+# Download and install Nix.
 curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
   | tar --extract --xz --directory /tmp
 /tmp/nix-2.35.1-x86_64-linux/install --daemon --yes
 rm --recursive --force /tmp/nix-2.35.1-x86_64-linux
+
+# Power off the target computer.
 poweroff
