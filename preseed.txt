@@ -39,9 +39,8 @@ d-i partman-auto/method string regular
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 
-# Install additional software.
-d-i pkgsel/include string curl git linux-image-amd64 linux-headers-amd64 \
-    broadcom-sta-dkms openssh-server
+# Install additional software to enable password-based remote root logins.
+d-i pkgsel/include string openssh-server
 
 # Bypass final successful installation acknowledgment prompt.
 d-i finish-install/reboot_in_progress note
