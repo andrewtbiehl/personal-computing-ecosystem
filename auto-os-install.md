@@ -193,19 +193,14 @@ hardware and software being used for development are listed below.
       - *All options are functionally identical; if there is more than one, choose the
         left-most option for consistency.*
 3. On the provisioning computer, open a new shell session and run the following command.
-   This will trigger the automatic OS installation (on the target computer).
+   This will trigger the automatic OS installation (on the target computer), wait until
+   the target computer restarts, and then run all post-installation setup steps.
    ```sh
    SSH_ASKPASS_REQUIRE=force \
    SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
-     < ~/personal-computing-ecosystem/os-installation-setup.sh
-   ```
-   - *Once the installation has completed, the target computer will restart.*
-4. On the provisioning computer, open a new shell session and run the following command.
-   This will wait until the target computer restarts and then run all post-installation
-   setup steps.
-   ```sh
-   until grep --quiet "debian" /tmp/dnsmasq.leases 2>/dev/null; do sleep 5; done \
+     < ~/personal-computing-ecosystem/os-installation-setup.sh \
+     && until grep --quiet "debian" /tmp/dnsmasq.leases 2>/dev/null; do sleep 5; done \
      && until SSH_ASKPASS_REQUIRE=force \
        SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
@@ -217,13 +212,13 @@ hardware and software being used for development are listed below.
    ```
    - *Once the post-installation setup has completed, the target computer will shut
      down.*
-5. On the provisioning computer, shut down both the DHCP server and the HTTP server and
+4. On the provisioning computer, shut down both the DHCP server and the HTTP server and
    then reset the adapter interface configuration via the following command.
    ```sh
    sudo rm /tmp/dnsmasq.leases \
      && sudo ip address delete 192.168.1.1/24 dev <interface-name>
    ```
-6. Perform the following steps on the target computer.
+5. Perform the following steps on the target computer.
    1. Start up the computer and log in to the initial user.
    2. Connect the computer to the internet via a wireless network.
 
