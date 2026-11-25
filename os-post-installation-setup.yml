@@ -13,10 +13,12 @@
           linux-headers-amd64 broadcom-sta-dkms sshpass ansible-core
       environment:
         DEBIAN_FRONTEND: noninteractive
+
     - name: Set the root password to 'password'.
       ansible.builtin.user:
         name: root
         password: "{{ 'password' | password_hash('sha512') }}"
+
     - name: >
         Create the initial user account 'andrew', set the password to 'password', and
         add the initial user to the `sudo` group.
@@ -26,6 +28,7 @@
         password: "{{ 'password' | password_hash('sha512') }}"
         groups: sudo
         shell: /bin/bash
+
     - name: Remove the "Linux Boot Manager" boot entry.
       block:
         - name: Determine "Linux Boot Manager" boot number.
@@ -38,6 +41,7 @@
           ansible.builtin.command:
             cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
           when: boot_manager_bootnum.stdout != ""
+
     - name: Set up software repositories for the APT package manager.
       block:
         - name: >
@@ -51,16 +55,19 @@
             src: /usr/share/doc/apt/examples/debian.sources
             dest: /etc/apt/sources.list.d/debian.sources
             remote_src: true
+
     - name: Purge the previously installed OpenSSH server package and configuration.
       ansible.builtin.apt:
         name: openssh-server
         state: absent
         purge: true
         autoremove: true
+
     - name: Check if Nix is already installed.
       ansible.builtin.stat:
         path: /nix/var/nix/profiles/default/bin/nix
       register: nix_binary
+
     - name: Install Nix.
       when: not nix_binary.stat.exists
       block:
@@ -76,6 +83,7 @@
           ansible.builtin.file:
             path: /tmp/nix-{{ nix_version }}-x86_64-linux
             state: absent
+
     - name: Power off the target computer.
       ansible.builtin.command: 
         cmd: poweroff
