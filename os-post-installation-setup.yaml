@@ -71,9 +71,8 @@
       block:
         - name: Download and extract the Nix installer.
           ansible.builtin.unarchive:
-            src: http://192.168.1.1:8000/nix-{{ nix_version }}-x86_64-linux.tar.xz
+            src: nix-{{ nix_version }}-x86_64-linux.tar.xz
             dest: /tmp
-            remote_src: true
         - name: Install Nix.
           ansible.builtin.command:
             cmd: /tmp/nix-{{ nix_version }}-x86_64-linux/install --daemon --yes
