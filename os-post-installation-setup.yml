@@ -1,0 +1,7 @@
+---
+- name: Post-installation setup
+  hosts: all
+  tasks:
+    - name: Run post-installation setup script
+      ansible.builtin.script: os-post-installation-setup.sh
+      ignore_unreachable: true

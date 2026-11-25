@@ -53,8 +53,8 @@ d-i debian-installer/allow_unauthenticated boolean true
 # This prevents missing repository errors while using the offline mirror.
 d-i apt-setup/services-select multiselect
 
-# Enable password-based remote root logins.
-d-i pkgsel/include string openssh-server
+# Enable password-based remote root logins and install Python for Ansible.
+d-i pkgsel/include string openssh-server python3
 d-i preseed/late_command string in-target sed -i \
     's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 

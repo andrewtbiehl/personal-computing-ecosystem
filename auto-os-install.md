@@ -31,7 +31,7 @@ hardware and software being used for development are listed below.
 
 1. Ensure that the state of the provisioning computer is functionally identical to that
    of a target computer at the conclusion of performing
-   [version `v0.3.0`](https://github.com/andrewtbiehl/personal-computing-ecosystem/tree/v0.3.0)
+   [version `v0.4.0`](https://github.com/andrewtbiehl/personal-computing-ecosystem/tree/v0.4.0)
    of this procedure.
    - *This may or may not require "bootstrapping" the state of the provisioning computer
      via an earlier version of this procedure.*
@@ -206,10 +206,11 @@ hardware and software being used for development are listed below.
        SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
          -o ConnectTimeout=5 root@192.168.1.2 true 2>/dev/null; do sleep 5; done \
-     && SSH_ASKPASS_REQUIRE=force \
-       SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
-       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-       root@192.168.1.2 < ~/personal-computing-ecosystem/os-post-installation-setup.sh
+     && ansible-playbook \
+       --inventory 192.168.1.2, --user root \
+       --extra-vars ansible_password=dummy-password \
+       --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' \
+       ~/personal-computing-ecosystem/os-post-installation-setup.yml
    ```
    - *Once the post-installation setup has completed, the target computer will shut
      down.*
