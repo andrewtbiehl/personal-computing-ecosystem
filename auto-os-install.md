@@ -54,8 +54,8 @@ hardware and software being used for development are listed below.
       the Nix compressed archive, via the following command.
       ```sh
       wget --directory-prefix=$HOME/personal-computing-ecosystem/ \
-        https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/linux \
-        https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/initrd.gz \
+        https://snapshot.debian.org/archive/debian/20261122T022821Z/dists/trixie/main/installer-amd64/20250803+deb13u8/images/netboot/debian-installer/amd64/linux \
+        https://snapshot.debian.org/archive/debian/20261122T022821Z/dists/trixie/main/installer-amd64/20250803+deb13u8/images/netboot/debian-installer/amd64/initrd.gz \
         https://releases.nixos.org/nix/nix-2.35.6/nix-2.35.6-x86_64-linux.tar.xz
       ```
    2. Create some directories for the repository via the following command.
@@ -81,13 +81,13 @@ hardware and software being used for development are listed below.
       - Idempotently attempt to download all packages via the following command.
         ```sh
         wget --output-document=- \
-            https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/binary-amd64/Packages.gz \
-            https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
-            https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/non-free/binary-amd64/Packages.gz \
+            https://snapshot.debian.org/archive/debian/20261122T022821Z/dists/trixie/main/binary-amd64/Packages.gz \
+            https://snapshot.debian.org/archive/debian/20261122T022821Z/dists/trixie/main/debian-installer/binary-amd64/Packages.gz \
+            https://snapshot.debian.org/archive/debian/20261122T022821Z/dists/trixie/non-free/binary-amd64/Packages.gz \
           | zgrep --extended-regexp "^(Package|Filename):" \
           | awk '
             /^Package:/ { pkg=$2 }
-            /^Filename:/ { url[pkg] = "https://snapshot.debian.org/archive/debian/20260707T021943Z/" $2 }
+            /^Filename:/ { url[pkg] = "https://snapshot.debian.org/archive/debian/20261122T022821Z/" $2 }
             END {
               while ((getline < "'$HOME'/personal-computing-ecosystem/packages.txt") > 0)
                 if ($1 in url) print url[$1]
@@ -125,14 +125,14 @@ hardware and software being used for development are listed below.
       command.
       ```sh
       mkdir --mode=700 ~/personal-computing-ecosystem/gnupg \
-        && gpg --faked-system-time "20260708T000000" \
+        && gpg --faked-system-time "20261123T000000" \
           --homedir ~/personal-computing-ecosystem/gnupg --batch --passphrase '' \
           --quick-generate-key "Local Debian Mirror" \
-        && gpg --faked-system-time "20260708T000100" \
+        && gpg --faked-system-time "20261123T000100" \
           --homedir ~/personal-computing-ecosystem/gnupg --batch --yes \
           --output ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release.gpg \
           --detach-sign ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release \
-        && gpg --faked-system-time "20260708T000100" \
+        && gpg --faked-system-time "20261123T000100" \
           --homedir ~/personal-computing-ecosystem/gnupg --batch --yes \
           --output ~/personal-computing-ecosystem/debian-repo/dists/trixie/InRelease \
           --clearsign ~/personal-computing-ecosystem/debian-repo/dists/trixie/Release \
@@ -140,9 +140,9 @@ hardware and software being used for development are listed below.
       ```
       - *Faking the system time is done for reproducibility purposes; the specific time
         is chosen to be approximately a day after the chosen Debian snapshot time.*
-   - *The choice to use the Debian snapshot time of `20260707T021943Z` was vaguely
-     influenced by prior dependence on a particular version (i.e. version 13.5.0) of the
-     disk image of the target OS, but is also a rather arbitrary choice.*
+   - *The choice to use the Debian snapshot time of `20261122T022821Z` is due to the
+     fact that this was the first snapshot available on the day after the release of
+     Debian version 13.8.0.*
 
 ### Installation steps
 

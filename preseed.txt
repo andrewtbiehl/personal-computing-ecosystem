@@ -10,9 +10,9 @@ d-i debian-installer/country string US
 d-i keyboard-configuration/xkb-keymap select us
 
 # Pin the system time for reproducibility purposes.
-# The system time is pinned to approximately a month after the snapshot timestamp of the
+# The system time is pinned to approximately a day after the snapshot timestamp of the
 # netboot installation files.
-d-i preseed/early_command string date -s "2026-08-13 12:00:00"
+d-i preseed/early_command string date -s "2026-11-24 12:00:00"
 
 # Set the root password to 'dummy-password'.
 d-i passwd/root-password password dummy-password
