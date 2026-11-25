@@ -57,7 +57,12 @@
         state: absent
         purge: true
         autoremove: true
+    - name: Check if Nix is already installed.
+      ansible.builtin.stat:
+        path: /nix/var/nix/profiles/default/bin/nix
+      register: nix_binary
     - name: Install Nix.
+      when: not nix_binary.stat.exists
       block:
         - name: Download and extract the Nix installer.
           ansible.builtin.unarchive:
