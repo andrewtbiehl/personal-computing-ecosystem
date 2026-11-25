@@ -1,6 +1,7 @@
 ---
 - name: Post-installation setup
   hosts: all
+  gather_facts: false
   tasks:
     - name: Install additional software.
       ansible.builtin.shell: |
