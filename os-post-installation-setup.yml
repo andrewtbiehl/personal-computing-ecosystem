@@ -11,12 +11,12 @@
     - name: Set the root password to 'password'.
       ansible.builtin.shell: |
         echo "root:password" | chpasswd
-    - name: Create the initial user account 'andrew' and set the password to 'password'.
+    - name: >
+        Create the initial user account 'andrew', set the password to 'password', and
+        add the initial user to the `sudo` group.
       ansible.builtin.shell: |
         adduser --disabled-password --comment "Andrew" andrew
         echo "andrew:password" | chpasswd
-    - name: Add the initial user to the `sudo` group.
-      ansible.builtin.shell: |
         usermod --append --groups sudo andrew
     - name: Remove the "Linux Boot Manager" boot entry.
       ansible.builtin.shell: |
@@ -34,11 +34,15 @@
     - name: Purge the previously installed OpenSSH server package and configuration.
       ansible.builtin.shell: |
         DEBIAN_FRONTEND=noninteractive apt-get purge --autoremove --yes openssh-server
-    - name: Download and install Nix.
+    - name: Download and extract the Nix installer.
       ansible.builtin.shell: |
         curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
           | tar --extract --xz --directory /tmp
+    - name: Install Nix.
+      ansible.builtin.shell: |
         /tmp/nix-2.35.1-x86_64-linux/install --daemon --yes
+    - name: Clean up Nix installer files.
+      ansible.builtin.shell: |
         rm --recursive --force /tmp/nix-2.35.1-x86_64-linux
     - name: Power off the target computer.
       ansible.builtin.shell: |
