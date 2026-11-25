@@ -103,6 +103,6 @@
             remote_src: true
 
     - name: Power off the target computer.
-      ansible.builtin.command: 
+      ansible.builtin.command:
         cmd: poweroff
       ignore_unreachable: true
