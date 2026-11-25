@@ -6,7 +6,7 @@ set -e
 apt-get update --allow-insecure-repositories
 DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
   '?priority(standard)' task-gnome-desktop task-laptop curl git \
-  linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
+  linux-headers-amd64 broadcom-sta-dkms
 
 # Set the root password to 'password'.
 echo "root:password" | chpasswd
