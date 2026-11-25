@@ -23,11 +23,14 @@
         - name: Update APT cache.
           ansible.builtin.command:
             cmd: apt-get update --allow-insecure-repositories
+          changed_when: false
         - name: Install standard priority packages.
           ansible.builtin.command:
             cmd: apt-get install --yes --allow-unauthenticated '?priority(standard)'
           environment:
             DEBIAN_FRONTEND: noninteractive
+          register: apt_standard_install
+          changed_when: "'0 newly installed' not in apt_standard_install.stdout"
         - name: Install additional software.
           ansible.builtin.apt:
             name:
