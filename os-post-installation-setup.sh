@@ -8,6 +8,9 @@ DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
   '?priority(standard)' task-gnome-desktop task-laptop curl git \
   linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
 
+# Set the root password to 'password'.
+echo "root:password" | chpasswd
+
 # Create the initial user account 'andrew' and set the password to 'password'.
 adduser --disabled-password --comment "Andrew" andrew
 echo "andrew:password" | chpasswd

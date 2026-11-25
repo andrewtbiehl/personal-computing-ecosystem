@@ -1,5 +1,5 @@
 #!/bin/sh
 
-# Simply output the default password for the purpose of automating SSH
+# Simply output the dummy password for the purpose of automating SSH
 # password input.
-echo "password"
+echo "dummy-password"

@@ -14,9 +14,9 @@ d-i keyboard-configuration/xkb-keymap select us
 # netboot installation files.
 d-i preseed/early_command string date -s "2026-08-13 12:00:00"
 
-# Set the root password to 'password'.
-d-i passwd/root-password password password
-d-i passwd/root-password-again password password
+# Set the root password to 'dummy-password'.
+d-i passwd/root-password password dummy-password
+d-i passwd/root-password-again password dummy-password
 
 # Decline creation of a non-root user account.
 d-i passwd/make-user boolean false
