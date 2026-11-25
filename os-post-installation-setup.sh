@@ -6,7 +6,7 @@ set -e
 apt-get update --allow-insecure-repositories
 DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
   '?priority(standard)' task-gnome-desktop task-laptop curl git \
-  linux-headers-amd64 broadcom-sta-dkms sshpass
+  linux-headers-amd64 broadcom-sta-dkms sshpass ansible-core
 
 # Set the root password to 'password'.
 echo "root:password" | chpasswd
