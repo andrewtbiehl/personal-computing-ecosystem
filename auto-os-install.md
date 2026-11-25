@@ -210,7 +210,7 @@ hardware and software being used for development are listed below.
        --inventory 192.168.1.2, --user root \
        --extra-vars ansible_password=dummy-password \
        --ssh-common-args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' \
-       ~/personal-computing-ecosystem/os-post-installation-setup.yml
+       ~/personal-computing-ecosystem/os-post-installation-setup.yaml
    ```
    - *Once the post-installation setup has completed, the target computer will shut
      down.*
