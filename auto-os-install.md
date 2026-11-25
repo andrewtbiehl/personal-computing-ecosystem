@@ -57,7 +57,7 @@ hardware and software being used for development are listed below.
       wget --directory-prefix=$HOME/personal-computing-ecosystem/ \
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/linux \
         https://snapshot.debian.org/archive/debian/20260707T021943Z/dists/trixie/main/installer-amd64/20250803+deb13u5/images/netboot/debian-installer/amd64/initrd.gz \
-        https://releases.nixos.org/nix/nix-2.35.1/nix-2.35.1-x86_64-linux.tar.xz
+        https://releases.nixos.org/nix/nix-2.35.6/nix-2.35.6-x86_64-linux.tar.xz
       ```
    2. Create some directories for the repository via the following command.
       ```sh
