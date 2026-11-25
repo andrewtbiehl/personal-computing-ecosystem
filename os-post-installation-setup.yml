@@ -22,7 +22,9 @@
       ansible.builtin.shell: |
         efibootmgr --delete-bootnum \
           --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8)
-    - name: Deactivate the temporary software repository configuration used to install the target OS.
+    - name: >
+        Deactivate the temporary software repository configuration used to install the
+        target OS.
       ansible.builtin.shell: |
         rm /etc/apt/sources.list
     - name: Set up software repositories for the APT package manager.
