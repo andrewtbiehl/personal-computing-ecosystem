@@ -197,13 +197,11 @@ hardware and software being used for development are listed below.
    This will trigger the automatic OS installation (on the target computer), wait until
    the target computer restarts, and then run all post-installation setup steps.
    ```sh
-   SSH_ASKPASS_REQUIRE=force \
-   SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
-   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
+   sshpass -p dummy-password \
+     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@192.168.1.2 \
      < ~/personal-computing-ecosystem/os-installation-setup.sh \
      && until grep --quiet "debian" /tmp/dnsmasq.leases 2>/dev/null; do sleep 5; done \
-     && until SSH_ASKPASS_REQUIRE=force \
-       SSH_ASKPASS=$HOME/personal-computing-ecosystem/default-root-askpass.sh \
+     && until sshpass -p dummy-password \
        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
          -o ConnectTimeout=5 root@192.168.1.2 true 2>/dev/null; do sleep 5; done \
      && ansible-playbook \
