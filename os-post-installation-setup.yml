@@ -5,6 +5,19 @@
   vars:
     nix_version: "2.35.1"
   tasks:
+    - name: Remove the "Linux Boot Manager" boot entry.
+      block:
+        - name: Determine "Linux Boot Manager" boot number.
+          ansible.builtin.shell:
+            cmd: efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
+          register: boot_manager_bootnum
+          changed_when: false
+          failed_when: false
+        - name: Remove the "Linux Boot Manager" boot entry.
+          ansible.builtin.command:
+            cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
+          when: boot_manager_bootnum.stdout != ""
+
     - name: Install additional software.
       ansible.builtin.shell: |
         apt-get update --allow-insecure-repositories
@@ -29,40 +42,6 @@
         groups: sudo
         shell: /bin/bash
 
-    - name: Remove the "Linux Boot Manager" boot entry.
-      block:
-        - name: Determine "Linux Boot Manager" boot number.
-          ansible.builtin.shell:
-            cmd: efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
-          register: boot_manager_bootnum
-          changed_when: false
-          failed_when: false
-        - name: Remove the "Linux Boot Manager" boot entry.
-          ansible.builtin.command:
-            cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
-          when: boot_manager_bootnum.stdout != ""
-
-    - name: Set up software repositories for the APT package manager.
-      block:
-        - name: >
-            Deactivate the temporary software repository configuration used to install the
-            target OS.
-          ansible.builtin.file:
-            path: /etc/apt/sources.list
-            state: absent
-        - name: Set up software repositories for the APT package manager.
-          ansible.builtin.copy:
-            src: /usr/share/doc/apt/examples/debian.sources
-            dest: /etc/apt/sources.list.d/debian.sources
-            remote_src: true
-
-    - name: Purge the previously installed OpenSSH server package and configuration.
-      ansible.builtin.apt:
-        name: openssh-server
-        state: absent
-        purge: true
-        autoremove: true
-
     - name: Check if Nix is already installed.
       ansible.builtin.stat:
         path: /nix/var/nix/profiles/default/bin/nix
@@ -83,6 +62,27 @@
           ansible.builtin.file:
             path: /tmp/nix-{{ nix_version }}-x86_64-linux
             state: absent
+
+    - name: Purge the previously installed OpenSSH server package and configuration.
+      ansible.builtin.apt:
+        name: openssh-server
+        state: absent
+        purge: true
+        autoremove: true
+
+    - name: Set up software repositories for the APT package manager.
+      block:
+        - name: >
+            Deactivate the temporary software repository configuration used to install the
+            target OS.
+          ansible.builtin.file:
+            path: /etc/apt/sources.list
+            state: absent
+        - name: Set up software repositories for the APT package manager.
+          ansible.builtin.copy:
+            src: /usr/share/doc/apt/examples/debian.sources
+            dest: /etc/apt/sources.list.d/debian.sources
+            remote_src: true
 
     - name: Power off the target computer.
       ansible.builtin.command: 
