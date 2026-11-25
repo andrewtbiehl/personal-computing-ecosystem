@@ -21,11 +21,11 @@
     - name: Install additional software.
       block:
         - name: Update APT cache.
-          ansible.builtin.shell: |
-            apt-get update --allow-insecure-repositories
+          ansible.builtin.command:
+            cmd: apt-get update --allow-insecure-repositories
         - name: Install standard priority packages.
-          ansible.builtin.shell: |
-            apt-get install --yes --allow-unauthenticated '?priority(standard)'
+          ansible.builtin.command:
+            cmd: apt-get install --yes --allow-unauthenticated '?priority(standard)'
           environment:
             DEBIAN_FRONTEND: noninteractive
         - name: Install additional software.
