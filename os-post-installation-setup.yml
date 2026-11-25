@@ -105,4 +105,6 @@
     - name: Power off the target computer.
       ansible.builtin.command:
         cmd: poweroff
+      async: 1
+      poll: 0
       ignore_unreachable: true
