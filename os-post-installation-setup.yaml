@@ -7,15 +7,15 @@
   tasks:
     - name: Clean up EFI boot entries
       block:
-        - name: Determine "Linux Boot Manager" boot number
+        - name: Determine "Linux Boot Manager" boot number(s)
           ansible.builtin.shell:
             cmd: efibootmgr | awk '/Linux Boot Manager/ {print substr($1, 5, 4)}'
-          register: boot_manager_bootnum
+          register: boot_manager_bootnums
           changed_when: false
-        - name: Remove "Linux Boot Manager" boot entry
+        - name: Remove "Linux Boot Manager" boot entries
           ansible.builtin.command:
-            cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
-          when: boot_manager_bootnum.stdout != ""
+            cmd: efibootmgr --delete-bootnum --bootnum {{ item }}
+          loop: "{{ boot_manager_bootnums.stdout_lines }}"
           changed_when: true
 
     - name: Install software
