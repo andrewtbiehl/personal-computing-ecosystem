@@ -2,45 +2,43 @@
 - name: Post-installation setup
   hosts: all
   tasks:
-    - name: Run post-installation setup script
+    - name: Install additional software.
       ansible.builtin.shell: |
-        # Install additional software.
         apt-get update --allow-insecure-repositories
         DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
           '?priority(standard)' task-gnome-desktop task-laptop curl git \
           linux-headers-amd64 broadcom-sta-dkms sshpass ansible-core
-
-        # Set the root password to 'password'.
+    - name: Set the root password to 'password'.
+      ansible.builtin.shell: |
         echo "root:password" | chpasswd
-
-        # Create the initial user account 'andrew' and set the password to 'password'.
+    - name: Create the initial user account 'andrew' and set the password to 'password'.
+      ansible.builtin.shell: |
         adduser --disabled-password --comment "Andrew" andrew
         echo "andrew:password" | chpasswd
-
-        # Add the initial user to the `sudo` group.
+    - name: Add the initial user to the `sudo` group.
+      ansible.builtin.shell: |
         usermod --append --groups sudo andrew
-
-        # Remove the "Linux Boot Manager" boot entry.
+    - name: Remove the "Linux Boot Manager" boot entry.
+      ansible.builtin.shell: |
         efibootmgr --delete-bootnum \
           --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8)
-
-        # Deactivate the temporary software repository configuration used to install
-        # the target OS.
+    - name: Deactivate the temporary software repository configuration used to install the target OS.
+      ansible.builtin.shell: |
         rm /etc/apt/sources.list
-
-        # Set up software repositories for the APT package manager.
+    - name: Set up software repositories for the APT package manager.
+      ansible.builtin.shell: |
         cp /usr/share/doc/apt/examples/debian.sources \
           /etc/apt/sources.list.d/debian.sources
-
-        # Purge the previously installed OpenSSH server package and configuration.
+    - name: Purge the previously installed OpenSSH server package and configuration.
+      ansible.builtin.shell: |
         DEBIAN_FRONTEND=noninteractive apt-get purge --autoremove --yes openssh-server
-
-        # Download and install Nix.
+    - name: Download and install Nix.
+      ansible.builtin.shell: |
         curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
           | tar --extract --xz --directory /tmp
         /tmp/nix-2.35.1-x86_64-linux/install --daemon --yes
         rm --recursive --force /tmp/nix-2.35.1-x86_64-linux
-
-        # Power off the target computer.
+    - name: Power off the target computer.
+      ansible.builtin.shell: |
         poweroff
       ignore_unreachable: true
