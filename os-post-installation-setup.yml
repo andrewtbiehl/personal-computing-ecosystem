@@ -101,6 +101,7 @@
             src: /usr/share/doc/apt/examples/debian.sources
             dest: /etc/apt/sources.list.d/debian.sources
             remote_src: true
+            mode: "0644"
 
     - name: Power off the target computer.
       ansible.builtin.command:
