@@ -2,6 +2,11 @@
 
 set -e
 
+# Install additional software.
+apt-get update --allow-insecure-repositories
+DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
+  curl git linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
+
 # Create the initial user account 'andrew' and set the password to 'password'.
 adduser --disabled-password --comment "Andrew" andrew
 echo "andrew:password" | chpasswd
@@ -12,11 +17,6 @@ usermod --append --groups sudo andrew
 # Remove the "Linux Boot Manager" boot entry.
 efibootmgr --delete-bootnum \
   --bootnum $(efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8)
-
-# Install additional software.
-apt-get update --allow-insecure-repositories
-DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
-  curl git linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
 
 # Deactivate the temporary software repository configuration used to install
 # the target OS.
