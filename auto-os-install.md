@@ -169,7 +169,7 @@ hardware and software being used for development are listed below.
          sudo dnsmasq \
            --interface=<interface-name> \
            --dhcp-boot=http://192.168.1.1:8000/preseed.txt \
-           --dhcp-range=192.168.1.2,192.168.1.2 \
+           --dhcp-range=192.168.1.2,192.168.1.2,2m \
            --dhcp-option=6,192.168.1.1 \
            --dhcp-leasefile=/tmp/dnsmasq.leases \
            --no-hosts \
