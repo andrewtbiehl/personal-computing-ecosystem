@@ -17,6 +17,7 @@
           ansible.builtin.command:
             cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
           when: boot_manager_bootnum.stdout != ""
+          changed_when: true
 
     - name: Install additional software.
       block:
@@ -76,6 +77,7 @@
         - name: Install Nix.
           ansible.builtin.command:
             cmd: /tmp/nix-{{ nix_version }}-x86_64-linux/install --daemon --yes
+          changed_when: true
         - name: Clean up Nix installer files.
           ansible.builtin.file:
             path: /tmp/nix-{{ nix_version }}-x86_64-linux
