@@ -219,9 +219,6 @@ hardware and software being used for development are listed below.
    sudo rm /tmp/dnsmasq.leases \
      && sudo ip address delete 192.168.1.1/24 dev <interface-name>
    ```
-5. Perform the following steps on the target computer.
-   1. Start up the computer and log in to the initial user.
-   2. Connect the computer to the internet via a wireless network.
 
 ## Notes
 
