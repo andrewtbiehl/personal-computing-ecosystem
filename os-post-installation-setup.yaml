@@ -9,10 +9,9 @@
       block:
         - name: Determine "Linux Boot Manager" boot number
           ansible.builtin.shell:
-            cmd: efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
+            cmd: efibootmgr | awk '/Linux Boot Manager/ {print substr($1, 5, 4)}'
           register: boot_manager_bootnum
           changed_when: false
-          failed_when: false
         - name: Remove "Linux Boot Manager" boot entry
           ansible.builtin.command:
             cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
