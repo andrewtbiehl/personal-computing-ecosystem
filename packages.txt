@@ -4835,3 +4835,4 @@ liblzma5-udeb
 zlib1g-udeb
 dkms
 broadcom-sta-dkms
+sshpass
