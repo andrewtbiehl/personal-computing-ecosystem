@@ -4,8 +4,6 @@
   tasks:
     - name: Run post-installation setup script
       ansible.builtin.shell: |
-        set -e
-
         # Install additional software.
         apt-get update --allow-insecure-repositories
         DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
