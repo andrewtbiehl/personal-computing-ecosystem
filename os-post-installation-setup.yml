@@ -19,13 +19,17 @@
           when: boot_manager_bootnum.stdout != ""
 
     - name: Install additional software.
-      ansible.builtin.shell: |
-        apt-get update --allow-insecure-repositories
-        apt-get install --yes --allow-unauthenticated \
-          '?priority(standard)' task-gnome-desktop task-laptop curl git \
-          linux-headers-amd64 broadcom-sta-dkms sshpass ansible-core
-      environment:
-        DEBIAN_FRONTEND: noninteractive
+      block:
+        - name: Update APT cache.
+          ansible.builtin.shell: |
+            apt-get update --allow-insecure-repositories
+        - name: Install additional software.
+          ansible.builtin.shell: |
+            apt-get install --yes --allow-unauthenticated \
+              '?priority(standard)' task-gnome-desktop task-laptop curl git \
+              linux-headers-amd64 broadcom-sta-dkms sshpass ansible-core
+          environment:
+            DEBIAN_FRONTEND: noninteractive
 
     - name: Set the root password to 'password'.
       ansible.builtin.user:
