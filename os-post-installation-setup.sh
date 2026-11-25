@@ -1,5 +1,3 @@
-#!/bin/sh
-
 set -e
 
 # Install additional software.

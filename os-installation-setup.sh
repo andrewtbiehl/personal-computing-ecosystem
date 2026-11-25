@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # Attempt to correctly identify the internal drive block device name.
 INTERNAL_DRIVE_DEVICE_NAME=$(lsblk --paths --nodeps --noheadings \
     --output NAME,TYPE,TRAN | awk '$2 == "disk" && $3 != "usb" {print $1}')
