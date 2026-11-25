@@ -5,34 +5,34 @@
   vars:
     nix_version: "2.35.1"
   tasks:
-    - name: Remove the "Linux Boot Manager" boot entry.
+    - name: Clean up EFI boot entries
       block:
-        - name: Determine "Linux Boot Manager" boot number.
+        - name: Determine "Linux Boot Manager" boot number
           ansible.builtin.shell:
             cmd: efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
           register: boot_manager_bootnum
           changed_when: false
           failed_when: false
-        - name: Remove the "Linux Boot Manager" boot entry.
+        - name: Remove "Linux Boot Manager" boot entry
           ansible.builtin.command:
             cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
           when: boot_manager_bootnum.stdout != ""
           changed_when: true
 
-    - name: Install additional software.
+    - name: Install software
       block:
-        - name: Update APT cache.
+        - name: Update package manager cache
           ansible.builtin.command:
             cmd: apt-get update --allow-insecure-repositories
           changed_when: false
-        - name: Install standard priority packages.
+        - name: Install standard priority packages
           ansible.builtin.command:
             cmd: apt-get install --yes --allow-unauthenticated '?priority(standard)'
           environment:
             DEBIAN_FRONTEND: noninteractive
           register: apt_standard_install
           changed_when: "'0 newly installed' not in apt_standard_install.stdout"
-        - name: Install additional software.
+        - name: Install additional packages
           ansible.builtin.apt:
             name:
               - task-gnome-desktop
@@ -46,14 +46,12 @@
             state: present
             allow_unauthenticated: true
 
-    - name: Set the root password to 'password'.
+    - name: Set root password
       ansible.builtin.user:
         name: root
         password: "{{ 'password' | password_hash('sha512') }}"
 
-    - name: >
-        Create the initial user account 'andrew', set the password to 'password', and
-        add the initial user to the `sudo` group.
+    - name: Create initial user account
       ansible.builtin.user:
         name: andrew
         comment: Andrew
@@ -61,50 +59,48 @@
         groups: sudo
         shell: /bin/bash
 
-    - name: Check if Nix is already installed.
+    - name: Check if Nix is installed
       ansible.builtin.stat:
         path: /nix/var/nix/profiles/default/bin/nix
       register: nix_binary
 
-    - name: Install Nix.
+    - name: Install Nix
       when: not nix_binary.stat.exists
       block:
-        - name: Download and extract the Nix installer.
+        - name: Extract Nix installer
           ansible.builtin.unarchive:
             src: nix-{{ nix_version }}-x86_64-linux.tar.xz
             dest: /tmp
-        - name: Install Nix.
+        - name: Run Nix installer
           ansible.builtin.command:
             cmd: /tmp/nix-{{ nix_version }}-x86_64-linux/install --daemon --yes
           changed_when: true
-        - name: Clean up Nix installer files.
+        - name: Clean up Nix installer files
           ansible.builtin.file:
             path: /tmp/nix-{{ nix_version }}-x86_64-linux
             state: absent
 
-    - name: Purge the previously installed OpenSSH server package and configuration.
+    - name: Purge OpenSSH server package
       ansible.builtin.apt:
         name: openssh-server
         state: absent
         purge: true
         autoremove: true
 
-    - name: Set up software repositories for the APT package manager.
+    - name: Configure package manager repositories
       block:
-        - name: >
-            Deactivate the temporary software repository configuration used to install
-            the target OS.
+        - name: Remove temporary package manager repositories
           ansible.builtin.file:
             path: /etc/apt/sources.list
             state: absent
-        - name: Set up software repositories for the APT package manager.
+        - name: Configure standard package manager repositories
           ansible.builtin.copy:
             src: /usr/share/doc/apt/examples/debian.sources
             dest: /etc/apt/sources.list.d/debian.sources
             remote_src: true
             mode: "0644"
 
-    - name: Power off the target computer.
+    - name: Power off target computer
       ansible.builtin.command:
         cmd: poweroff
       async: 1
