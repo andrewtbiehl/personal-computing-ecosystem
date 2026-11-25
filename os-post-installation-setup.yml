@@ -73,8 +73,8 @@
     - name: Set up software repositories for the APT package manager.
       block:
         - name: >
-            Deactivate the temporary software repository configuration used to install the
-            target OS.
+            Deactivate the temporary software repository configuration used to install
+            the target OS.
           ansible.builtin.file:
             path: /etc/apt/sources.list
             state: absent
