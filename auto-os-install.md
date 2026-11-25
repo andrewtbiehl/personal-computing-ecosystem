@@ -18,7 +18,7 @@ hardware and software being used for development are listed below.
   - *It is possible that some adapter-to-computer/OS pairings are incompatible; some
     "mixing and matching" may prove necessary.*
 - Ethernet cable
-- USB-A thumb drive (32 GB)
+- USB-A thumb drive (8 GB)
 - Wireless router with internet access and an Ethernet port
 
 ### Software
