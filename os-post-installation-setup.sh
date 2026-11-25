@@ -30,9 +30,8 @@ rm /etc/apt/sources.list
 cp /usr/share/doc/apt/examples/debian.sources \
   /etc/apt/sources.list.d/debian.sources
 
-# Disable password-based remote access.
-sed --in-place 's/^PermitRootLogin yes/#PermitRootLogin prohibit-password/' \
-  /etc/ssh/sshd_config
+# Purge the previously installed OpenSSH server package and configuration.
+DEBIAN_FRONTEND=noninteractive apt-get purge --autoremove --yes openssh-server
 
 # Download and install Nix.
 curl http://192.168.1.1:8000/nix-2.35.1-x86_64-linux.tar.xz \
