@@ -25,12 +25,12 @@
         groups: sudo
         shell: /bin/bash
     - name: Determine "Linux Boot Manager" boot number.
-      ansible.builtin.shell: |
-        efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
+      ansible.builtin.shell:
+        cmd: efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
       register: boot_manager_bootnum
     - name: Remove the "Linux Boot Manager" boot entry.
-      ansible.builtin.shell: |
-        efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
+      ansible.builtin.command:
+        cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
     - name: >
         Deactivate the temporary software repository configuration used to install the
         target OS.
