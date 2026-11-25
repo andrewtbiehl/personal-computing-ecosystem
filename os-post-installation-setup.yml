@@ -26,45 +26,51 @@
         password: "{{ 'password' | password_hash('sha512') }}"
         groups: sudo
         shell: /bin/bash
-    - name: Determine "Linux Boot Manager" boot number.
-      ansible.builtin.shell:
-        cmd: efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
-      register: boot_manager_bootnum
-      changed_when: false
-      failed_when: false
     - name: Remove the "Linux Boot Manager" boot entry.
-      ansible.builtin.command:
-        cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
-      when: boot_manager_bootnum.stdout != ""
-    - name: >
-        Deactivate the temporary software repository configuration used to install the
-        target OS.
-      ansible.builtin.file:
-        path: /etc/apt/sources.list
-        state: absent
+      block:
+        - name: Determine "Linux Boot Manager" boot number.
+          ansible.builtin.shell:
+            cmd: efibootmgr | grep "Linux Boot Manager" | cut --characters=5-8
+          register: boot_manager_bootnum
+          changed_when: false
+          failed_when: false
+        - name: Remove the "Linux Boot Manager" boot entry.
+          ansible.builtin.command:
+            cmd: efibootmgr --delete-bootnum --bootnum {{ boot_manager_bootnum.stdout }}
+          when: boot_manager_bootnum.stdout != ""
     - name: Set up software repositories for the APT package manager.
-      ansible.builtin.copy:
-        src: /usr/share/doc/apt/examples/debian.sources
-        dest: /etc/apt/sources.list.d/debian.sources
-        remote_src: true
+      block:
+        - name: >
+            Deactivate the temporary software repository configuration used to install the
+            target OS.
+          ansible.builtin.file:
+            path: /etc/apt/sources.list
+            state: absent
+        - name: Set up software repositories for the APT package manager.
+          ansible.builtin.copy:
+            src: /usr/share/doc/apt/examples/debian.sources
+            dest: /etc/apt/sources.list.d/debian.sources
+            remote_src: true
     - name: Purge the previously installed OpenSSH server package and configuration.
       ansible.builtin.apt:
         name: openssh-server
         state: absent
         purge: true
         autoremove: true
-    - name: Download and extract the Nix installer.
-      ansible.builtin.unarchive:
-        src: http://192.168.1.1:8000/nix-{{ nix_version }}-x86_64-linux.tar.xz
-        dest: /tmp
-        remote_src: true
     - name: Install Nix.
-      ansible.builtin.command: 
-        cmd: /tmp/nix-{{ nix_version }}-x86_64-linux/install --daemon --yes
-    - name: Clean up Nix installer files.
-      ansible.builtin.file:
-        path: /tmp/nix-{{ nix_version }}-x86_64-linux
-        state: absent
+      block:
+        - name: Download and extract the Nix installer.
+          ansible.builtin.unarchive:
+            src: http://192.168.1.1:8000/nix-{{ nix_version }}-x86_64-linux.tar.xz
+            dest: /tmp
+            remote_src: true
+        - name: Install Nix.
+          ansible.builtin.command:
+            cmd: /tmp/nix-{{ nix_version }}-x86_64-linux/install --daemon --yes
+        - name: Clean up Nix installer files.
+          ansible.builtin.file:
+            path: /tmp/nix-{{ nix_version }}-x86_64-linux
+            state: absent
     - name: Power off the target computer.
       ansible.builtin.command: 
         cmd: poweroff
