@@ -58,5 +58,5 @@ d-i pkgsel/include string openssh-server
 d-i preseed/late_command string in-target sed -i \
     's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Install additional software.
-tasksel tasksel/first multiselect standard, gnome-desktop, laptop
+# Disable installation of additional software.
+d-i pkgsel/run_tasksel boolean false

@@ -5,7 +5,8 @@ set -e
 # Install additional software.
 apt-get update --allow-insecure-repositories
 DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-unauthenticated \
-  curl git linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
+  '?priority(standard)' task-gnome-desktop task-laptop curl git \
+  linux-image-amd64 linux-headers-amd64 broadcom-sta-dkms
 
 # Create the initial user account 'andrew' and set the password to 'password'.
 adduser --disabled-password --comment "Andrew" andrew
