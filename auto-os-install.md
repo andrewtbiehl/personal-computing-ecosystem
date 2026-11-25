@@ -22,7 +22,7 @@ hardware and software being used for development are listed below.
 
 ### Software
 
-- "Target" OS: Debian 13 (Trixie).
+- "Target" OS: Debian 13 (Trixie)
 
 ## Procedure
 
